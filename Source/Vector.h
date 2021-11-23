@@ -1,26 +1,17 @@
 #pragma once
 
-template <typename T, int count>
-struct VectorBase
-{
-	VectorBase();
-	VectorBase();
-	VectorBase();
-	
-};
-
-struct Vector3f : VectorBase<T, 3>
+struct Vector3f
 {
 	
 public:
-	Vector3(); // Default
-	Vector3(); // Copy
-	Vector3(); // Move
+	Vector3f(); // Default
+	Vector3f(const Vector3f& other); // Copy
+	Vector3f(Vector3f&& other); // Move
 
-	Vector3(float xyz);
-	Vector3(float x, float y, float z);
+	Vector3f(float xyz);
+	Vector3f(float x, float y, float z);
 
-	~Vector3();
+	~Vector3f();
 
 public:
 	float x, y, z;
