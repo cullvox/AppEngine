@@ -1,7 +1,9 @@
 #pragma once
 
+// Array.h
+// Contains a simple cpp abstraction for a raw C array
+
 #include <initializer_list>
-#include <memory.h>
 
 namespace AE
 {
@@ -13,7 +15,7 @@ class Array
 public:
 	Array(); // Default
 	Array(const Array& other); // Copy
-	Array(Array&& other) // Move
+	Array(Array&& other); // Move
 
 	Array(const T* raw, int count);
 	Array(std::initializer_list<T> elements);
@@ -21,16 +23,19 @@ public:
 	~Array();
 
 public:
-	void 	Resize(int newCapacity);
-	void 	Add(T&& elem);
-	void 	Add(std::initializer_list<T> elements);
-	void 	Remove(int index);
-	void 	Insert(T& elem, int index);
-	void 	Clear();
-	T&		Get(int index);
-	int		Count();
-	int		Capacity();
-	T*		Raw();
+	void Resize(int capacity);
+	void Set(int index, T& value);
+	T& Get(int index);
+	void Remove(int index);
+	void Push(T& value);
+	void Push(std::initializer_list<T> elements);
+	void Pop();
+	void Clear();
+	T& First();
+	T& Last();
+	int Count();
+	int Capacity();
+	T* Raw();
 
 private:
 	T* m_Raw;
@@ -38,20 +43,6 @@ private:
 	unsigned m_Count;
 };
 
-template <typename T>
-Array::Array()
-{
-	Resize(5);
 }
 
-template <typename T>
-Array::Array(const Array<T>& other)
-{
-	Resize(other.Capacity());
-	memcpy(m_Raw, other.GetRaw(), sizeof(T) * other.Capacity());
-	m_Count = other.Count();
-}
-
-
-
-}
+#include "Array.inl"
