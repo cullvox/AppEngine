@@ -5,6 +5,8 @@
 
 #include "Array.h"
 #include "Vector.h"
+#include "String.h"
+#include "Types.h"
 
 namespace AE
 {
@@ -72,15 +74,23 @@ public:
 	void Bind();
 };
 
-class PipelineInstance : public Resource
+class Monitor : public NonCopyable
+{
+
+};
+
+class Window : public Resource
 {
 public:
-	PipelineInstance();
-	PipelineInstance(GraphicsDevice& device, Pipeline& pipeline);
+	Window();
+	Window(GraphicsDevice& device, const String& name, unsigned int width, unsigned int height);
+	virtual ~Window() = 0;
 
 public:
 	void Bind();
-};
+	void Resize(unsigned int width, unsigned int height);
+
+}
 
 class GraphicsDevice
 {
@@ -88,13 +98,29 @@ public:
 	GraphicsDevice();
 	virtual ~GraphicsDevice() = 0;
 
+// Window
 public:
-	virtual VertexBuffer* CreateVertexBuffer() = 0;
+	virtual Window* CreateWindow() = 0;
+	virtual void DestroyWindow() = 0;
+
+
+// Graphics
+public:
+	virtual VertexBuffer* CreateVertexBuffer(Array<Vertex> verts) = 0;
 	virtual void DestroyVertexBuffer(VertexBuffer* buffer) = 0;
 
-	virtual IndexBuffer* CreateIndexBuffer() = 0;
+	virtual IndexBuffer* CreateIndexBuffer(Array<unsigned short> indices) = 0;
 	virtual void DestroyIndexBuffer(IndexBuffer* buffer) = 0;
 	
+	virtual Texture* CreateTexture(unsigned int width, unsigned int height, Array<unsigned char> pixels) = 0;
+	virtual void DestroyTexture(Texture* texture) = 0;
+	
+	virtual Pipeline* CreatePipeline(Array<unsigned char> vertex, Array<unsigned char> fragment) = 0;
+	virtual void DestroyPipeline(Pipeline* pipeline) = 0;
+
+// Drawing
+public:
+	virtual void NextFrame() = 0;
 
 public:
 	// Store resources and pipelines to ensure destruction later
