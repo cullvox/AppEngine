@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 3.12)
 project (AppEngine)
 
+# Build AppEngine
 set (Sources "")
-
 list(APPEND Sources
     "Source/Containers/Array.cpp"
     "Source/Containers/LinkedList.cpp"
@@ -12,3 +12,6 @@ list(APPEND Sources
 add_library(AppEngine SHARED ${Sources})
 
 target_include_directories(AppEngine PUBLIC "Include")
+
+# Build Examples
+add_subdirectory(Examples)

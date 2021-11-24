@@ -1,5 +1,7 @@
 #pragma once
 
+#include <initializer_list>
+
 #include "Macro.h"
 #include "Array.h"
 
@@ -21,21 +23,24 @@ public:
 	String(const String& other); // Copy
 	String(String&& other); // Move
 
-	String(const char* raw, int size);
-	AE_UNSAFE String(const char* raw); // Unsafe
+	String(std::initializer_list<char> elements);
+	String(const char* raw); // MUST be a null-terminated string
+	String(const char* raw, unsigned int size);
 	
 	~String();
 
 public:
 	void Set(const String& other);
-	void Set(const char* raw, int size);
-	void AE_UNSAFE Set(const char* raw);
-	const char* Raw();
-	void Append(String& other);
+	void Set(const char* raw); // Must be a null-terminated string
+	void Set(const char* raw, unsigned int size);
 	void Clear();
+	void Append(String& other);
+	const char* Raw() const;
+	unsigned int Size() const;
 
 public:
 	String& operator=(const String& other);
+	String& operator+(const String& other);
 
 private:
 	Array<char> m_Arr;

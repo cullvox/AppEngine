@@ -25,7 +25,7 @@
 	#define AE_UNSAFE AE_DEPRECATED
 #else
 	#define AE_DEPRECATED  __attribute__((deprecated))
-	#define AE_UNSAFE __attribute__(warning("Using unsafe function!"))
+	#define AE_UNSAFE __attribute__((deprecated))
 #endif
 
 #include <assert.h>

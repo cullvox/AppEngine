@@ -15,7 +15,6 @@ class Array
 public:
 	Array(); // Default
 	Array(const Array& other); // Copy
-	Array(Array&& other); // Move
 
 	Array(const T* raw, int count);
 	Array(std::initializer_list<T> elements);
@@ -31,16 +30,19 @@ public:
 	void Push(std::initializer_list<T> elements);
 	void Pop();
 	void Clear();
-	T& First();
-	T& Last();
-	int Count();
-	int Capacity();
-	T* Raw();
+	T& First() const;
+	T& Last() const;
+	int Count() const;
+	int Capacity() const; 
+	T* Raw() const;
+
+public:
+	Array& operator=(const Array& other); // Copy
 
 private:
-	T* m_Raw;
-	unsigned m_Capacity;
-	unsigned m_Count;
+	T* m_Raw = nullptr;
+	unsigned m_Capacity = 0;
+	unsigned m_Count = 0;
 };
 
 }

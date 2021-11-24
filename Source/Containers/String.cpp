@@ -32,14 +32,54 @@ String::String(String&& other)
 	other.Clear();
 }
 
+String::String(std::initializer_list<char> elements)
+{
+	m_Arr.Push(elements);
+}
+
+String::String(const char* raw)
+{
+	Set(raw);
+}
+
 String::String(const char* raw, int size)
 {
 	Set(raw, size);
 }
 
-String::String(const char* raw)
+String::~String()
+{
+}
+
+void String::Set(const String& other)
+{
+	m_Arr = other.m_Arr;
+}
+
+void String::Set(const char* raw, int size)
+{
+	for (unsigned int i = 0; i < size; i++)
+		m_Arr.Push((char&)raw[i]);
+}
+
+void String::Set(const char* raw)
 {
 	Set(raw, StringRawUtils::Size(raw));
+}
+
+void String::Clear()
+{
+	m_Arr.Clear();
+}
+
+const char* String::Raw() const
+{
+	return m_Arr.Raw();
+}
+
+unsigned int String::Size() const
+{
+	return m_Arr.Count();
 }
 
 }

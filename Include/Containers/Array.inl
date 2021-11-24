@@ -43,8 +43,10 @@ void Array<T>::Resize(int capacity)
 {
 	T* raw = new T[capacity];
 	memcpy(raw, m_Raw, sizeof(T) * m_Count);
-	delete m_Raw;
+	if (m_Raw)
+		delete m_Raw;
 	m_Raw = raw;
+	m_Capacity = capacity;
 }
 
 template <typename T>
@@ -71,7 +73,7 @@ void Array<T>::Push(T& value)
 	// Check for resize 
 	if ((m_Count - 1) == m_Capacity)
 	{
-		Resize(m_Capacity + 1);
+		Resize(m_Capacity + 2);
 	}
 
 	Set(m_Count, value);
@@ -84,7 +86,7 @@ void Array<T>::Push(std::initializer_list<T> elements)
 	typename std::initializer_list<T>::iterator it;
 	for (it = elements.begin(); it != elements.end(); it++)
 	{
-		Push(it);
+		Push((T&)*it);
 	}
 }
 
@@ -101,33 +103,46 @@ void Array<T>::Clear()
 }
 
 template <typename T>
-T& Array<T>::First()
+T& Array<T>::First() const
 {
 	return Get(0);
 }
 
 template <typename T>
-T& Array<T>::Last()
+T& Array<T>::Last() const
 {
 	return Get(m_Count - 1);
 }
 
 template <typename T>
-int Array<T>::Count()
+int Array<T>::Count() const
 {
 	return m_Count;
 }
 
 template <typename T>
-int Array<T>::Capacity()
+int Array<T>::Capacity() const
 {
 	return m_Capacity;
 }
 
 template <typename T>
-T* Array<T>::Raw()
+T* Array<T>::Raw() const
 {
 	return m_Raw;
+}
+
+template <typename T>
+Array<T>& Array<T>::operator=(const Array<T>& other) // Copy
+{
+	if (&other == this)
+		return *this;
+
+	Resize(other.Capacity());
+	memcpy(m_Raw, other.m_Raw, sizeof(T) * other.Count());
+	m_Count = other.Count();
+	m_Capacity = other.Capacity();
+	return *this;
 }
 
 }
