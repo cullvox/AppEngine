@@ -2,7 +2,6 @@
 
 #include <initializer_list>
 
-#include "Macro.h"
 #include "Array.h"
 
 namespace AE
@@ -11,8 +10,8 @@ namespace AE
 class StringRawUtils
 {
 public:
-	static unsigned int Size(const char* raw, unsigned int MAX);
-	static unsigned int AE_UNSAFE Size(const char* raw);
+	static unsigned int Size(const char* raw, unsigned int max);
+	static unsigned int Size(const char* raw);
 };
 
 class String

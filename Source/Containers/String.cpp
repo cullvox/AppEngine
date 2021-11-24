@@ -13,7 +13,7 @@ unsigned int StringRawUtils::Size(const char* raw, unsigned int MAX)
 
 unsigned int StringRawUtils::Size(const char* raw)
 {
-	return (unsigned int)strlen(raw); // This is really unsafe!
+	return (unsigned int)strlen(raw); // I don't think that this is a good idea.
 }
 
 // STRING
@@ -42,7 +42,7 @@ String::String(const char* raw)
 	Set(raw);
 }
 
-String::String(const char* raw, int size)
+String::String(const char* raw, unsigned int size)
 {
 	Set(raw, size);
 }
@@ -56,7 +56,7 @@ void String::Set(const String& other)
 	m_Arr = other.m_Arr;
 }
 
-void String::Set(const char* raw, int size)
+void String::Set(const char* raw, unsigned int size)
 {
 	for (unsigned int i = 0; i < size; i++)
 		m_Arr.Push((char&)raw[i]);

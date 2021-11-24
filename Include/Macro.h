@@ -22,10 +22,8 @@
 
 #ifdef AE_WINDOWS
 	#define AE_DEPRECATED __declspec(deprecated)
-	#define AE_UNSAFE AE_DEPRECATED
 #else
 	#define AE_DEPRECATED  __attribute__((deprecated))
-	#define AE_UNSAFE __attribute__((deprecated))
 #endif
 
 #include <assert.h>
