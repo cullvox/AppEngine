@@ -6,6 +6,7 @@ set (Sources "")
 list(APPEND Sources
     "Source/Containers/Array.cpp"
     "Source/Containers/LinkedList.cpp"
+    "Source/Containers/String.cpp"
 	"Source/Vector.cpp")
 
 add_library(AppEngine SHARED ${Sources})
