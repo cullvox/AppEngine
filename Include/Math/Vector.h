@@ -49,11 +49,23 @@ public:
 
 	~Vector3f();
 
+
+public:
+	static Vector3f Right();
+	static Vector3f Up();
+	static Vector3f Forward();
+
 public:
 	Vector3f Add(const Vector3f& other) const;
 	Vector3f Sub(const Vector3f& other) const;
 	Vector3f Mul(const Vector3f& other) const;
 	Vector3f Div(const Vector3f& other) const;
+
+	Vector3f Cross(const Vector3f& other) const;
+	float Dot() const;
+
+public:
+	Vector3f& Normalize();
 
 public:
 	Vector3f operator+(const Vector3f& other) const;

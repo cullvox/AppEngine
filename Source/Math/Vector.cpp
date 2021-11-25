@@ -1,3 +1,5 @@
+#include "cblas.h"
+
 #include "Math/Vector.h"
 
 namespace AE
@@ -86,6 +88,21 @@ Vector3f::~Vector3f()
 
 }
 
+Vector3f Vector3f::Right()
+{
+    return Vector3f(1, 0, 0);
+}
+
+Vector3f Vector3f::Up()
+{
+    return Vector3f(0, 1, 0);
+}
+
+Vector3f Vector3f::Forward()
+{
+    return Vector3f(0, 0, 1);
+}
+
 Vector3f Vector3f::Add(const Vector3f& other) const
 {
     return Vector3f(x + other.x, y + other.y, z + other.z);
@@ -105,6 +122,18 @@ Vector3f Vector3f::Div(const Vector3f& other) const
 {
     return Vector3f(x / other.x, y / other.y, z / other.z);
 }
+
+Vector3f Vector3f::Cross(const Vector3f& other) const
+{
+    return Vector3f((y * other.z) - (z * other.y), (z * other.x) - (x * other.z), (x * other.y) - (y * other.x));
+}
+
+float Vector3f::Dot() const
+{
+    float xyz[3] = {x, y, z};
+    return cblas_sdot(3, xyz, 0, nullptr, 0);
+}
+
 
 Vector3f Vector3f::operator+(const Vector3f& other) const
 {
