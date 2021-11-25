@@ -1,6 +1,6 @@
 #pragma once
 
-class Queue
-{
-	
-}
+#include "LinkedList.h"
+
+template <typename T>
+using Queue = LinkedList<T>;

@@ -66,4 +66,34 @@ public:
 
 };
 
+struct Vector4f
+{
+
+public:
+	Vector4f();
+	Vector4f(const Vector4f& other);
+	Vector4f(Vector4f&& other);
+
+	Vector4f(float xyzw);
+	Vector4f(float x, float y, float z, float w);
+
+	~Vector4f();
+
+public:
+	Vector4f Add(const Vector4f& other) const;
+	Vector4f Sub(const Vector4f& other) const;
+	Vector4f Mul(const Vector4f& other) const;
+	Vector4f Div(const Vector4f& other) const;
+
+public:
+	Vector4f operator+(const Vector4f& other) const;
+	Vector4f operator-(const Vector4f& other) const;
+	Vector4f operator*(const Vector4f& other) const;
+	Vector4f operator/(const Vector4f& other) const;
+
+public:
+	float x, y, z, w;	
+
+};
+
 }

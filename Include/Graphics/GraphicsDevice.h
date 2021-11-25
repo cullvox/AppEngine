@@ -4,15 +4,40 @@
 // Contains abstract classes as a format for apis.
 
 #include "Types.h"
+#include "Math/Matrix.h"
 #include "Containers/Array.h"
 #include "Containers/String.h"
+#include "Containers/Queue.h"
+#include "Graphics/Window.h"
 #include "Graphics/Vertex.h"
+#include "Graphics/VertexBuffer.h"
+#include "Graphics/IndexBuffer.h"
+#include "Graphics/Texture.h"
+#include "Graphics/Pipeline.h"
 
 namespace AE
 {
 
-struct GraphicsSubmit
+enum State
 {
+	eDrawLine,
+	eDrawTriangleStrip,
+	eDrawPoint
+};
+
+struct Submission
+{
+	Matrix4f transform;
+	Matrix4f projection;
+	VertexBuffer* vertexBuffer;
+	IndexBuffer* indexBuffer;
+	Pipeline* pipeline;
+	State state;
+};
+
+struct GraphicsOptions
+{
+	bool vSync;
 
 };
 
@@ -33,23 +58,32 @@ public:
 
 // Graphics
 public:
-	virtual VertexBuffer* CreateVertexBuffer(Array<Vertex> verts) = 0;
+	virtual VertexBuffer* CreateVertexBuffer(const Array<Vertex>& vertices) = 0;
 	virtual void DestroyVertexBuffer(VertexBuffer* buffer) = 0;
 
-	virtual IndexBuffer* CreateIndexBuffer(Array<unsigned short> indices) = 0;
+	virtual IndexBuffer* CreateIndexBuffer(const Array<unsigned short>& indices) = 0;
 	virtual void DestroyIndexBuffer(IndexBuffer* buffer) = 0;
+
+	virtual InstanceBuffer* CreateInstanceBuffer() = 0;
+	virtual void DestroyInstanceBuffer() = 0;
 	
-	virtual Texture* CreateTexture(unsigned int width, unsigned int height, Array<unsigned char> pixels) = 0;
+	virtual Texture* CreateTexture(unsigned int width, unsigned int height, const Array<unsigned char>& pixels) = 0;
 	virtual void DestroyTexture(Texture* texture) = 0;
 	
-	virtual Pipeline* CreatePipeline(Array<unsigned char> vertex, Array<unsigned char> fragment) = 0;
+	virtual Pipeline* CreatePipeline(const Array<unsigned char>& vertex, const Array<unsigned char>& fragment) = 0;
 	virtual void DestroyPipeline(Pipeline* pipeline) = 0;
 
 // Drawing
 public:
-	virtual void UpdateTransform();
-	virtual void UpdateProjection();
-	virtual void Submit() = 0; // Submits to the frame queue
+	virtual void SetViewTransform(Matrix4f transform) = 0;
+	virtual void SetViewProjection(Matrix4f projection) = 0;
+
+	virtual void SetTransform(Matrix4f transform) = 0;
+	virtual void SetProjection(Matrix4f projection) = 0;
+	virtual void SetVertexBuffer(VertexBuffer* vertexBuffer) = 0;
+	virtual void SetIndexBuffer(IndexBuffer* indexBuffer) = 0;
+	virtual void SetState();
+	virtual void Submit(Pipeline* pipeline) = 0; // Submits to the frame queue
 	virtual void NextFrame() = 0; // Submits the currently queued frames to the GPU
 
 public:
@@ -57,7 +91,7 @@ public:
 	Array<Resource*> resources;
 
 	// The draw calls to submit this frame
-	Queue<GraphicsSubmit> frameSubmissions;
+	Queue<Submission> frameSubmissions;
 };
 
 }

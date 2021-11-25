@@ -126,4 +126,83 @@ Vector3f Vector3f::operator/(const Vector3f& other) const
     return Div(other);
 }
 
+Vector4f::Vector4f()
+{
+    x = y = z = w = 0.f;
+}
+
+Vector4f::Vector4f(const Vector4f& other)
+{
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    w = other.w;
+}
+
+Vector4f::Vector4f(Vector4f&& other)
+{
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    w = other.w;
+    other.x = other.y = other.z = other.w = 0.f;
+}
+
+Vector4f::Vector4f(float xyzw)
+{
+    x = y = z = w = xyzw;
+}
+
+Vector4f::Vector4f(float _x, float _y, float _z, float _w)
+{
+    x = _x;
+    y = _y;
+    z = _z;
+    w = _w;
+}
+
+Vector4f::~Vector4f()
+{
+}
+
+Vector4f Vector4f::Add(const Vector4f& other) const
+{
+    return Vector4f(x + other.x, y + other.y, z + other.z, w + other.w);
+}
+
+Vector4f Vector4f::Sub(const Vector4f& other) const
+{
+    return Vector4f(x - other.x, y - other.y, z - other.z, w - other.w);
+}
+
+Vector4f Vector4f::Mul(const Vector4f& other) const
+{
+    return Vector4f(x * other.x, y * other.y, z * other.z, w * other.w);
+}
+
+Vector4f Vector4f::Div(const Vector4f& other) const
+{
+    return Vector4f(x / other.x, y / other.y, z / other.z, w / other.w);
+}
+
+Vector4f Vector4f::operator+(const Vector4f& other) const
+{
+    return Add(other);
+}
+
+Vector4f Vector4f::operator-(const Vector4f& other) const
+{
+    return Sub(other);
+}
+
+Vector4f Vector4f::operator*(const Vector4f& other) const
+{
+    return Mul(other);
+}
+
+Vector4f Vector4f::operator/(const Vector4f& other) const
+{
+    return Div(other);
+}
+
 }
