@@ -82,8 +82,8 @@ public:
 	virtual void SetProjection(Matrix4f projection) = 0;
 	virtual void SetVertexBuffer(VertexBuffer* vertexBuffer) = 0;
 	virtual void SetIndexBuffer(IndexBuffer* indexBuffer) = 0;
-	virtual void SetState();
-	virtual void Submit(Pipeline* pipeline) = 0; // Submits to the frame queue
+	virtual void SetState(State state) = 0;
+	virtual void QueueCall(Pipeline* pipeline) = 0; // Submits to the frame queue
 	virtual void NextFrame() = 0; // Submits the currently queued frames to the GPU
 
 public:
