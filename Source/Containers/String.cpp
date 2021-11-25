@@ -58,8 +58,13 @@ void String::Set(const String& other)
 
 void String::Set(const char* raw, unsigned int size)
 {
+	// Clear the string
+	Clear();
+
+	size++; // Add the null terminator.
+	m_Arr.Resize(size);
 	for (unsigned int i = 0; i < size; i++)
-		m_Arr.Push((char&)raw[i]);
+		m_Arr.Push((char)raw[i]);
 }
 
 void String::Set(const char* raw)

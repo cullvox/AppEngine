@@ -41,12 +41,20 @@ Array<T>::~Array()
 template <typename T>
 void Array<T>::Resize(int capacity)
 {
+	if (m_Capacity == capacity)
+		return;
+
+	// Allocate a new array and copy the old data over
 	T* raw = new T[capacity];
 	memcpy(raw, m_Raw, sizeof(T) * m_Count);
+	
+	// Delete the old array
 	if (m_Raw)
-		delete m_Raw;
+		delete[] m_Raw;
+
 	m_Raw = raw;
 	m_Capacity = capacity;
+	memset(m_Raw + m_Count, 0, sizeof(T) * (m_Capacity - m_Count));
 }
 
 template <typename T>
@@ -71,9 +79,9 @@ template <typename T>
 void Array<T>::Push(T& value)
 {
 	// Check for resize 
-	if ((m_Count - 1) == m_Capacity)
+	if (m_Count == m_Capacity)
 	{
-		Resize(m_Capacity + 2);
+		Resize(m_Capacity + 1);
 	}
 
 	Set(m_Count, value);
@@ -99,7 +107,8 @@ void Array<T>::Pop()
 template <typename T>
 void Array<T>::Clear()
 {
-	memset(m_Raw, 0, sizeof(T) * m_Count);
+	memset(m_Raw, 0, sizeof(T) * m_Capacity);
+	m_Count = 0;
 }
 
 template <typename T>

@@ -75,10 +75,10 @@ public:
 
 // Drawing
 public:
-	virtual void SetViewTransform(Matrix4f transform) = 0;
-	virtual void SetViewProjection(Matrix4f projection) = 0;
+	virtual void SetViewTransform(const Matrix4f& transform) = 0;
+	virtual void SetViewFrustrum(const Matrix4f& projection) = 0;
 
-	virtual void SetTransform(Matrix4f transform) = 0;
+	virtual void SetModelTransform(Matrix4f transform) = 0;
 	virtual void SetProjection(Matrix4f projection) = 0;
 	virtual void SetVertexBuffer(VertexBuffer* vertexBuffer) = 0;
 	virtual void SetIndexBuffer(IndexBuffer* indexBuffer) = 0;
