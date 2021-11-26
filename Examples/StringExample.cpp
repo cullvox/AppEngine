@@ -7,3 +7,11 @@ int main()
     str.Set("Testing Strings!");
 
 }
+
+
+
+int doSomething()
+{
+    int cum = 0;
+    return ++cum;
+}

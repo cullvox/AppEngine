@@ -18,23 +18,6 @@
 namespace AE
 {
 
-enum State
-{
-	eDrawLine,
-	eDrawTriangleStrip,
-	eDrawPoint
-};
-
-struct Submission
-{
-	Matrix4f transform;
-	Matrix4f projection;
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
-	Pipeline* pipeline;
-	State state;
-};
-
 struct GraphicsOptions
 {
 	bool vSync;
@@ -75,23 +58,25 @@ public:
 
 // Drawing
 public:
+
+	// Add submission to the queue
 	virtual void SetViewTransform(const Matrix4f& transform) = 0;
 	virtual void SetViewFrustrum(const Matrix4f& projection) = 0;
-
-	virtual void SetModelTransform(Matrix4f transform) = 0;
-	virtual void SetProjection(Matrix4f projection) = 0;
+	virtual void SetModelTransform(const Matrix4f& transform) = 0;
 	virtual void SetVertexBuffer(VertexBuffer* vertexBuffer) = 0;
 	virtual void SetIndexBuffer(IndexBuffer* indexBuffer) = 0;
+	virtual void SetPipeline(Pipeline* pipeline) = 0;
 	virtual void SetState(State state) = 0;
-	virtual void QueueCall(Pipeline* pipeline) = 0; // Submits to the frame queue
-	virtual void NextFrame() = 0; // Submits the currently queued frames to the GPU
+	
+	virtual void Submit(Pipeline* pipeline) = 0; // Submits to the frame queue
+	virtual void Submit(const Submission& submission, const Window& context) = 0; // Direct submission
+
+	virtual void NextFrame(const Window& context) = 0; // Submits the currently queued frames to the GPU
 
 public:
-	// Store resources and pipelines to ensure destruction later
-	Array<Resource*> resources;
+	GraphicsOptions options;
+	Array<Resource*> resources; // Store resources and pipelines to ensure destruction later
 
-	// The draw calls to submit this frame
-	Queue<Submission> frameSubmissions;
 };
 
 }

@@ -32,8 +32,8 @@ public:
 	void Clear();
 	T& First() const;
 	T& Last() const;
-	int Count() const;
-	int Capacity() const; 
+	unsigned int Count() const;
+	unsigned int Capacity() const; 
 	T* Raw() const;
 
 public:
@@ -42,8 +42,8 @@ public:
 
 private:
 	T* m_Raw = nullptr;
-	unsigned m_Capacity = 0;
-	unsigned m_Count = 0;
+	unsigned int m_Capacity = 0;
+	unsigned int m_Count = 0;
 };
 
 }

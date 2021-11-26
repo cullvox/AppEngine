@@ -4,6 +4,7 @@
 // Contains a number of useful vertex and formatting classes
 
 #include <initializer_list>
+#include <functional>
 
 #include "Math/Vector.h"
 #include "Containers/Array.h"
@@ -37,7 +38,7 @@ enum VertexType
 	eUnsignedInt8
 };
 
-static inline VertexTypeToSize(const VertexType type)
+static inline unsigned int VertexTypeToSize(const VertexType type)
 {
 	switch (type)
 	{
@@ -57,12 +58,12 @@ static inline VertexTypeToSize(const VertexType type)
 
 struct VertexElement
 {
-	VertexAttribute(VertexAttributeType _attrib, VertexType _type, unsigned int _elementCount, bool _normalized)
-		: attrib(_attrib), type(_type), elementCount(_elementType), normalized(_normalized)
+	VertexElement(VertexAttribute _attrib, VertexType _type, unsigned int _elementCount, bool _normalized)
+		: attrib(_attrib), type(_type), elementCount(_elementCount), normalized(_normalized)
 	{
 	}
 
-	VertexAttributeType attrib;
+	VertexAttribute attrib;
 	VertexType type;
 	unsigned int elementCount;
 	bool normalized;
@@ -76,31 +77,31 @@ public:
 	VertexFormat(std::initializer_list<VertexElement> elements) // Do it my way so you're cool
 	{
 		typename std::initializer_list<VertexElement>::iterator it;
-		for (it = attributes.begin(); it != attributes.end(); it++)
+		for (it = elements.begin(); it != elements.end(); ++it)
 		{
-			m_Attributes.Push(it);
+			m_Elements.Push((VertexElement&)*it);
 		}
 	}
 
 	~VertexFormat();
 
 public:
-	VertexFormat& Add(VertexAttributeType attrib, VertexType type, unsigned int elementCount, bool normalized) // Do it the BGFX way instead
+	VertexFormat& Add(VertexAttribute attrib, VertexType type, unsigned int elementCount, bool normalized) // Do it the BGFX way instead
 	{
-		m_Attributes.Push(VertexAttribute(attrib, type, elementCount, normalized));
+		m_Elements.Push(VertexElement(attrib, type, elementCount, normalized));
 	}
 
 	unsigned int Stride() const
 	{
 		unsigned int stride = 0;
-		for (unsigned int i = 0; i < m_Attributes.Count(); i++)
-			stride += VertexTypeToSize(m_Attributes[i].type);
+		for (unsigned int i = 0; i < m_Elements.Count(); i++)
+			stride += VertexTypeToSize(m_Elements[i].type);
 
 		return stride;
 	}
 
 private:
-	Array<VertexAttribute> m_Attributes;
+	Array<VertexElement> m_Elements;
 
 };
 
@@ -110,12 +111,9 @@ struct Vertex2D
 {
 	Vector2f position;
 	Vector2f texCoord;
-}
+};
 
-VertexFormat DefaultVertex2DFormat({
-		(VertexAttribute::ePosition, VertexType::eFloat, 2, false),
-		(VertexAttribute::eTexCoords, VertexType::eFloat, 2, true)
-	});
+VertexFormat DefaultVertex2DFormat({ VertexElement(ePosition, eFloat, 2, false), VertexElement(eTexCoords, eFloat, 2, false) });
 
 struct Vertex
 {
@@ -125,9 +123,9 @@ struct Vertex
 };
 
 VertexFormat DefaultVertexFormat({
-		(VertexAttribute::ePosition, VertexType::eFloat, 3, false),
-		(VertexAttribute::eNormal, VertexType::eFloat, 3, false),
-		(VertexAttribute::eTexCoords, VertexType::eFloat, 2, true)
+		VertexElement(VertexAttribute::ePosition, VertexType::eFloat, 3, false),
+		VertexElement(VertexAttribute::eNormal, VertexType::eFloat, 3, false),
+		VertexElement(VertexAttribute::eTexCoords, VertexType::eFloat, 2, true)
 	});
 
 struct VertexSkinned
@@ -140,11 +138,11 @@ struct VertexSkinned
 };
 
 VertexFormat DefaultVertexSkinnedFormat({
-		(VertexAttribute::ePosition, VertexType::eFloat, 3, false),
-		(VertexAttribute::eNormal, VertexType::eFloat, 3, false),
-		(VertexAttribute::eTexCoords, VertexType::eFloat, 2, true),
-		(VertexAttribute::eIndices, VertexType::eInt16, 4, false),
-		(VertexAttribute::eWeights, VertexType::eFloat, 4, true)
+		VertexElement(VertexAttribute::ePosition, VertexType::eFloat, 3, false),
+		VertexElement(VertexAttribute::eNormal, VertexType::eFloat, 3, false),
+		VertexElement(VertexAttribute::eTexCoords, VertexType::eFloat, 2, true),
+		VertexElement(VertexAttribute::eIndices, VertexType::eInt16, 4, false),
+		VertexElement(VertexAttribute::eWeights, VertexType::eFloat, 4, true)
 	});
 
 }

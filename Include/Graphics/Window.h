@@ -6,6 +6,7 @@
 #include "Types.h"
 #include "String.h"
 #include "Graphics/Resource.h"
+#include "Graphics/Submission.h"
 
 namespace AE
 {
@@ -40,6 +41,9 @@ public:
 	virtual void Bind() = 0; // Changes the context to this window
 	virtual void Resize(unsigned int width, unsigned int height) = 0;
 	virtual void UpdateTitle(const String& title) = 0;
+
+private:
+	Queue<Submission> frameSubmissions; // The draw calls to submit this frame
 
 }
 

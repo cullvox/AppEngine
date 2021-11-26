@@ -124,13 +124,13 @@ T& Array<T>::Last() const
 }
 
 template <typename T>
-int Array<T>::Count() const
+unsigned int Array<T>::Count() const
 {
 	return m_Count;
 }
 
 template <typename T>
-int Array<T>::Capacity() const
+unsigned int Array<T>::Capacity() const
 {
 	return m_Capacity;
 }

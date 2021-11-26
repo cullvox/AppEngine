@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Containers/Array.h"
-#include "Resource.h"
+#include "Graphics/Resource.h"
+#include "Graphics/Vertex.h"
 
 namespace AE
 {
@@ -11,12 +12,13 @@ class VertexBuffer : public Buffer
 	
 public:
 	VertexBuffer();
-	template<class T>
-	VertexBuffer(GraphicsDevice* device, Array<VertexType> vertices);
+	VertexBuffer(GraphicsDevice* device, const VertexFormat& format);
 	virtual ~VertexBuffer() = 0;
 
 public:
 	virtual void Bind() = 0;
+
+	virtual void Update(const Array<>& data) = 0;
 
 };
 

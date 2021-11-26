@@ -27,6 +27,9 @@ public:
 	Buffer();
 	virtual ~Buffer() = 0;
 
+public:
+	virtual void Bind() = 0;
+
 };
 
 }
