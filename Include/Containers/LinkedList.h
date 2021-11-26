@@ -1,5 +1,8 @@
 #pragma once
 
+// LinkedList.h
+// Contains a templated linked list implementation
+
 namespace AE
 {
 

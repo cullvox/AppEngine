@@ -1,5 +1,8 @@
 #pragma once
 
+// String.h
+// Contains C String helpers and cn abstraction class of a C string
+
 #include <initializer_list>
 
 #include "Array.h"

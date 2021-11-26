@@ -22,10 +22,10 @@ public:
 	~Array();
 
 public:
-	void Resize(int capacity);
-	void Set(int index, T& value);
-	T& Get(int index);
-	void Remove(int index);
+	void Resize(unsigned int capacity);
+	void Set(unsigned int index, T& value);
+	T& Get(unsigned int index);
+	void Remove(unsigned int index);
 	void Push(T& value);
 	void Push(std::initializer_list<T> elements);
 	void Pop();
@@ -38,6 +38,7 @@ public:
 
 public:
 	Array& operator=(const Array& other); // Copy
+	T& operator[](unsigned int index) const;
 
 private:
 	T* m_Raw = nullptr;

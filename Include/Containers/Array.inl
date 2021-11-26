@@ -18,7 +18,7 @@ Array<T>::Array(const Array<T>& other)
 }
 
 template <typename T>
-Array<T>::Array(const T* raw, int count)
+Array<T>::Array(const T* raw, unsigned int count)
 {
 	Resize(count);
 	memcpy(m_Raw, raw, sizeof(T) * count);
@@ -39,7 +39,7 @@ Array<T>::~Array()
 }
 
 template <typename T>
-void Array<T>::Resize(int capacity)
+void Array<T>::Resize(unsigned int capacity)
 {
 	if (m_Capacity == capacity)
 		return;
@@ -58,19 +58,19 @@ void Array<T>::Resize(int capacity)
 }
 
 template <typename T>
-void Array<T>::Set(int index, T& value)
+void Array<T>::Set(unsigned int index, T& value)
 {
 	m_Raw[index] = value;
 }
 
 template <typename T>
-T& Array<T>::Get(int index)
+T& Array<T>::Get(unsigned int index)
 {
 	return m_Raw[index];
 }
 
 template <typename T>
-void Array<T>::Remove(int index)
+void Array<T>::Remove(unsigned int index)
 {
 	memcpy(m_Raw[index], m_Raw[index] + 1, sizeof(T) * m_Count);
 }
@@ -152,6 +152,12 @@ Array<T>& Array<T>::operator=(const Array<T>& other) // Copy
 	m_Count = other.Count();
 	m_Capacity = other.Capacity();
 	return *this;
+}
+
+template <typename T>
+T& Array<T>::operator[](unsigned int index) const
+{
+	return Get(index);
 }
 
 }

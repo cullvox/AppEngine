@@ -11,11 +11,12 @@ class VertexBuffer : public Buffer
 	
 public:
 	VertexBuffer();
-	VertexBuffer(GraphicsDevice* device, Array<Vertex> verts);
+	template<class T>
+	VertexBuffer(GraphicsDevice* device, Array<VertexType> vertices);
 	virtual ~VertexBuffer() = 0;
 
 public:
-	void Bind();
+	virtual void Bind() = 0;
 
 };
 
