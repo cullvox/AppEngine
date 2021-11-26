@@ -64,7 +64,7 @@ void Array<T>::Set(unsigned int index, T& value)
 }
 
 template <typename T>
-T& Array<T>::Get(unsigned int index)
+T& Array<T>::Get(unsigned int index) const
 {
 	return m_Raw[index];
 }

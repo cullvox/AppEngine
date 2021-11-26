@@ -5,7 +5,7 @@
 namespace AE
 {
 
-class Texture : public Resource
+class Texture : public Buffer
 {
 
 public:

@@ -14,7 +14,9 @@ public:
 	~IndexBuffer();
 
 public:
-	virtual void Bind() = 0;
+	virtual void Bind() const = 0;
+	virtual void Update(const void* data, unsigned int size) = 0;
+	virtual void Update(Array<unsigned short> indices) = 0;
 
 };
 

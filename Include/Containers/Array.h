@@ -24,7 +24,7 @@ public:
 public:
 	void Resize(unsigned int capacity);
 	void Set(unsigned int index, T& value);
-	T& Get(unsigned int index);
+	T& Get(unsigned int index) const;
 	void Remove(unsigned int index);
 	void Push(T& value);
 	void Push(std::initializer_list<T> elements);

@@ -58,6 +58,10 @@ static inline unsigned int VertexTypeToSize(const VertexType type)
 
 struct VertexElement
 {
+	VertexElement()
+	{
+	}
+
 	VertexElement(VertexAttribute _attrib, VertexType _type, unsigned int _elementCount, bool _normalized)
 		: attrib(_attrib), type(_type), elementCount(_elementCount), normalized(_normalized)
 	{
@@ -73,7 +77,10 @@ class VertexFormat
 {
 
 public:
-	VertexFormat();
+	VertexFormat()
+	{
+	}
+
 	VertexFormat(std::initializer_list<VertexElement> elements) // Do it my way so you're cool
 	{
 		typename std::initializer_list<VertexElement>::iterator it;

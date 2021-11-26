@@ -45,6 +45,6 @@ public:
 private:
 	Queue<Submission> frameSubmissions; // The draw calls to submit this frame
 
-}
+};
 
 }

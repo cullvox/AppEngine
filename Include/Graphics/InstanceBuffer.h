@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphics/Resources.h"
+#include "Graphics/Resource.h"
 
 namespace AE
 {
@@ -13,9 +13,9 @@ public:
 	InstanceBuffer(GraphicsDevice* graphicsDevice, unsigned int instanceCount, unsigned int stride);
 	~InstanceBuffer();
 
-	void Bind(const GraphicsDevice& graphicsDevice) const;
-
-	void Update(const GraphicsDevice& graphicsDevice, const void* data, const size_t size);
+public:
+	virtual void Bind(const GraphicsDevice& graphicsDevice) const = 0;
+	virtual void Update(const void* data, const size_t size) = 0;
 };
 
 };

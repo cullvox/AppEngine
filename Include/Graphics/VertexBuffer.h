@@ -16,9 +16,8 @@ public:
 	virtual ~VertexBuffer() = 0;
 
 public:
-	virtual void Bind() = 0;
-
-	virtual void Update(const Array<>& data) = 0;
+	virtual void Bind() const = 0;
+	virtual void Update(const void* data, unsigned int size) = 0;
 
 };
 
