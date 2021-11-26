@@ -16,7 +16,7 @@ public:
 	Array(); // Default
 	Array(const Array& other); // Copy
 
-	Array(const T* raw, int count);
+	Array(const T* raw, unsigned int count);
 	Array(std::initializer_list<T> elements);
 
 	~Array();
