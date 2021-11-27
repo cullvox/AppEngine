@@ -11,6 +11,7 @@ namespace AE
 
 enum State
 {
+	eDefault,
 	eDrawLine,
 	eDrawTriangleStrip,
 	eDrawPoint
@@ -18,15 +19,50 @@ enum State
 
 struct Submission
 {
-	Matrix4f view;
-	Matrix4f projection;
-	Matrix4f model;
+	Submission()
+	{
+	}
 
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
-	InstanceBuffer* instanceBuffer; // If instance buffer is nullptr, draw without instancing.
-	Pipeline* pipeline;
-	State state;
+	~Submission()
+	{
+	}
+
+	Submission& setModel(const Matrix4f& _model)
+	{
+		model = _model;
+	}
+
+	Submission& setVertexBuffer(const VertexBuffer* _vertexBuffer)
+	{
+		vertexBuffer = _vertexBuffer;
+	}
+
+	Submission& setIndexBuffer(const IndexBuffer* _indexBuffer)
+	{
+		indexBuffer = _indexBuffer;
+	}
+
+	Submission& setInstanceBuffer(const InstanceBuffer* _instanceBuffer)
+	{
+		instanceBuffer = _instanceBuffer;
+	}
+
+	Submission& setPipeline(const Pipeline* _pipeline)
+	{
+		pipeline = _pipeline;
+	}
+
+	Submission& setState(State _state)
+	{
+		state = _state;
+	}
+
+	Matrix4f model;
+	const VertexBuffer* vertexBuffer;
+	const IndexBuffer* indexBuffer;
+	const InstanceBuffer* instanceBuffer; // If instance buffer is nullptr, draw without instancing.
+	const Pipeline* pipeline;
+	State state = State::eDefault;
 };
 
 };

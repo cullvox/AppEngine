@@ -10,7 +10,9 @@ class IndexBuffer : public Buffer
 {
 
 public:
+	IndexBuffer();
 	IndexBuffer(GraphicsDevice* device, Array<unsigned short> indices);
+	
 	~IndexBuffer();
 
 public:

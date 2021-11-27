@@ -41,6 +41,12 @@ public:
 	unsigned int Size() const;
 
 public:
+	// The string formatter only supports simple formatting tools
+	// %i for int or longs, %f for float or double, %s for string, and %b for bool
+	template <class...Types>
+	static String Format(const String& format, Types...);
+
+public:
 	String& operator=(const String& other);
 	String& operator+(const String& other);
 
@@ -50,3 +56,5 @@ private:
 };
 
 }
+
+#include "String.inl"

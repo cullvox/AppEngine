@@ -21,13 +21,12 @@ namespace AE
 struct GraphicsOptions
 {
 	bool vSync;
-
 };
 
 class GraphicsDevice
 {
 public:
-	GraphicsDevice();
+	GraphicsDevice(const GraphicsOptions& options);
 	virtual ~GraphicsDevice() = 0;
 
 // Window
@@ -59,24 +58,27 @@ public:
 // Drawing
 public:
 
-	// Add submission to the queue
+	// Simple submission
 	virtual void SetViewTransform(const Matrix4f& transform) = 0;
-	virtual void SetViewFrustrum(const Matrix4f& projection) = 0;
+	virtual void SetViewFrustum(const Matrix4f& projection) = 0;
 	virtual void SetModelTransform(const Matrix4f& transform) = 0;
 	virtual void SetVertexBuffer(VertexBuffer* vertexBuffer) = 0;
 	virtual void SetIndexBuffer(IndexBuffer* indexBuffer) = 0;
 	virtual void SetPipeline(Pipeline* pipeline) = 0;
 	virtual void SetState(State state) = 0;
 	
-	virtual void Submit(Pipeline* pipeline) = 0; // Submits to the frame queue
-	virtual void Submit(const Submission& submission, const Window& context) = 0; // Direct submission
+	virtual void Submit(const Window& context) = 0; // Submits to the window frame queue
 
-	virtual void NextFrame(const Window& context) = 0; // Submits the currently queued frames to the GPU
+	// Use Window::NextFrame to draw to that surface
+	// Use Window::Submit to submit directly to the surface 
 
 public:
 	GraphicsOptions options;
 	Array<Resource*> resources; // Store resources and pipelines to ensure destruction later
 
 };
+
+GraphicsDevice* CreateGraphicsDevice();
+void DestroyGraphicsDevice(GraphicsDevice* graphicsDevice);
 
 }

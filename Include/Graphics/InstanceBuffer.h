@@ -10,6 +10,7 @@ class GraphicsDevice;
 class InstanceBuffer
 {
 public:
+	InstanceBuffer();
 	InstanceBuffer(GraphicsDevice* graphicsDevice, unsigned int instanceCount, unsigned int stride);
 	~InstanceBuffer();
 
