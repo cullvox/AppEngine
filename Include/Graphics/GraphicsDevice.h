@@ -18,6 +18,12 @@
 namespace AE
 {
 
+enum GraphicsAPI
+{
+	eOpenGL,
+	eVulkan,
+};
+
 struct GraphicsOptions
 {
 	bool vSync;
@@ -28,6 +34,8 @@ class GraphicsDevice
 public:
 	GraphicsDevice(const GraphicsOptions& options);
 	virtual ~GraphicsDevice() = 0;
+
+	GraphicsAPI API();
 
 // Window
 public:
@@ -40,7 +48,8 @@ public:
 
 // Graphics
 public:
-	virtual VertexBuffer* CreateVertexBuffer(const Array<Vertex>& vertices) = 0;
+	virtual VertexBuffer* CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount) = 0;
+	template <typename T> VertexBuffer* CreateVertexBuffer(const VertexFormat& format, const Array<T>& vertices) { return CreateVertexBuffer(format, vertices.Raw(), vertices.Count()); }
 	virtual void DestroyVertexBuffer(VertexBuffer* buffer) = 0;
 
 	virtual IndexBuffer* CreateIndexBuffer(const Array<unsigned short>& indices) = 0;
@@ -78,7 +87,7 @@ public:
 
 };
 
-GraphicsDevice* CreateGraphicsDevice();
-void DestroyGraphicsDevice(GraphicsDevice* graphicsDevice);
+GraphicsDevice* GraphicsDeviceInitialize(const GraphicsOptions& options);
+void GraphicsDeviceTerminate(GraphicsDevice* graphicsDevice);
 
 }

@@ -120,7 +120,7 @@ struct Vertex2D
 	Vector2f texCoord;
 };
 
-VertexFormat DefaultVertex2DFormat({ VertexElement(ePosition, eFloat, 2, false), VertexElement(eTexCoords, eFloat, 2, false) });
+static VertexFormat DefaultVertex2DFormat({ VertexElement(ePosition, eFloat, 2, false), VertexElement(eTexCoords, eFloat, 2, false) });
 
 struct Vertex
 {
@@ -129,7 +129,7 @@ struct Vertex
 	Vector2f texCoord;
 };
 
-VertexFormat DefaultVertexFormat({
+static VertexFormat DefaultVertexFormat({
 		VertexElement(VertexAttribute::ePosition, VertexType::eFloat, 3, false),
 		VertexElement(VertexAttribute::eNormal, VertexType::eFloat, 3, false),
 		VertexElement(VertexAttribute::eTexCoords, VertexType::eFloat, 2, true)
@@ -144,7 +144,7 @@ struct VertexSkinned
 	Vector4f weights;
 };
 
-VertexFormat DefaultVertexSkinnedFormat({
+static VertexFormat DefaultVertexSkinnedFormat({
 		VertexElement(VertexAttribute::ePosition, VertexType::eFloat, 3, false),
 		VertexElement(VertexAttribute::eNormal, VertexType::eFloat, 3, false),
 		VertexElement(VertexAttribute::eTexCoords, VertexType::eFloat, 2, true),

@@ -10,7 +10,9 @@ class GraphicsDevice;
 class InstanceBuffer
 {
 public:
-	InstanceBuffer();
+	InstanceBuffer(); // Default
+	InstanceBuffer(const InstanceBuffer& other); // Copy
+
 	InstanceBuffer(GraphicsDevice* graphicsDevice, unsigned int instanceCount, unsigned int stride);
 	~InstanceBuffer();
 

@@ -11,6 +11,7 @@ class Pipeline : public Resource
 	
 public:
 	Pipeline();
+	Pipeline(const Pipeline& other); // Copy Handle
 	Pipeline(Array<unsigned char> vertex, Array<unsigned char> fragment);
 	~Pipeline();
 

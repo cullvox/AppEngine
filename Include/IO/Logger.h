@@ -1,5 +1,8 @@
 #pragma once
 
+namespace AE
+{
+
 class Logger
 {
 public:
@@ -7,8 +10,11 @@ public:
     ~Logger();
 
 public:
+    static void LogInfo(const String& functionName, unsigned int line, const String& message);
+
     void LogInfo();
     void LogWarning();
     void LogError();
-
 };
+
+}

@@ -6,41 +6,56 @@
 namespace AE
 {
 
-class GraphicsDevice;
+class IGraphicsDevice;
 
 // Resources should be abstractions of API data and are basically handles
-class Resource
+class IResource
 {
 	
 public:
-	Resource(); // Default
-	Resource(const Resource& other); // Copy
-
-	Resource(GraphicsDevice* graphicsDevice);
-	virtual ~Resource() = 0;
-
-public:
-	virtual void Bind() = 0;
+	IResource(); // Default
+	IResource(const IResource& other); // Shallow Copy of handles
+	IResource(GraphicsDevice* graphicsDevice);
+	virtual ~IResource() = 0;
 
 public:
-	friend class GraphicsDevice;
+	virtual IResource& operator=(const IResource& other) = 0; // Shallow Copy Assignment
+
+public:
+	virtual void copy() = 0; // Preforms a deep copy of a resource
+	virtual void bind() = 0;
+
+
+
+public:
+	friend class IGraphicsDevice;
+
+protected:
+	virtual IResource* shallowCopy(const IResource* other) = 0; // Copys the resources handles to this
+
+protected:
+	IGraphicsDevice* m_GraphicsDevice;
 
 };
 
-class Buffer : public Resource
+class IBuffer : public IResource
 {
 
 public:
-	Buffer(); // Default
-	Buffer(const Resource& other); // Copy
+	IBuffer(); // Default
+	IBuffer(const IBuffer& other); // Copy
 
-	Buffer(GraphicsDevice* graphicsDevice);
-	virtual ~Buffer() = 0;
+	IBuffer(IGraphicsDevice* graphicsDevice);
+	virtual ~IBuffer() = 0;
 
 public:
-	virtual void Bind() const = 0;
-	virtual void Update(const void* data, unsigned int size) = 0;
-	virtual Buffer* Copy(); // Creates a new buffer
+	virtual void bind() const = 0;
+	virtual void update(const void* data, unsigned int size) = 0;
+	virtual IBuffer* copy() = 0; // Creates a new buffer
+
+protected:
+	virtual IResource* shallowCopy(const IResource* other) = 0;
+
 };
 
 }

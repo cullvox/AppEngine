@@ -22,9 +22,10 @@ set (APPENGINE_VULKAN OFF)
         set (APPENGINE_VULKAN ON)
     endif ()
 
+set(APPENGINE_BUILD_TEST ON)
 
 # Describe current build configuration
-message ("[ AppEngine Configuration ] Building required third party libraries: CBLAS, glfw-3.3.5")
+message ("[ AppEngine Configuration ] Building required third party libraries: CBLAS, glad, glfw-3.3.5")
     
     if (APPENGINE_OPENGL)
         message ("[ AppEngine Configuration ] Found OpenGL!")
@@ -63,9 +64,26 @@ target_link_libraries (AppEngine CBLAS glfw)
 # Link found required libraries
 
 # Link found not required libraries
+if (APPENGINE_OPENGL)
+    target_link_libraries (AppEngine glad)
+endif ()
+
 if (APPENGINE_VULKAN)
     target_link_libraries (AppEngine ${Vulkan_LIBRARY})
     target_include_directories (AppEngine PUBLIC ${Vulkan_INCLUDE_DIR})
+endif()
+
+# Add compile definitions
+if (APPENGINE_OPENGL)
+    target_compile_definitions(AppEngine PUBLIC "APPENGINE_OPENGL")
+endif()
+
+if (APPENGINE_VULKAN)
+    target_compile_definitions(AppEngine PUBLIC "APPENGINE_VULKAN")
+endif()
+
+if (APPENGINE_BUILD_TEST)
+    target_compile_definitions(AppEngine PUBLIC "APPENGINE_BUILD_TEST")
 endif()
 
 # Build Examples

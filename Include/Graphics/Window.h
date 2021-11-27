@@ -35,10 +35,11 @@ public:
 
 };
 
-class Window : public NonCopyable, public Resource
+class IWindow : public IResource
 {
 public:
 	Window();
+	Window(const Window& other); // Copy Handle
 	Window(GraphicsDevice* device);
 	Window(GraphicsDevice* device, const String& title, unsigned int width, unsigned int height, Display* display);
 	virtual ~Window() = 0;
