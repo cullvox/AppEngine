@@ -27,6 +27,38 @@ void WindowSystemTerminate()
 	glfwTerminate();
 }
 
+IDisplayGLFW::IDisplayGLFW()
+{
+}
+
+IDisplayGLFW::IDisplayGLFW(const IDisplay& other)
+{
+}
+
+IDisplayGLFW::IDisplayGLFW(GLFWmonitor* monitor)
+{
+	m_Monitor = monitor;
+}
+
+const TArray<SVideoMode>& IDisplayGLFW::GetVideoModes()
+{
+
+	if (!bGotModes)
+	{
+		// Update video modes
+		int count = 0;
+		const GLFWvidmode* videoModes = glfwGetVideoModes(m_Monitor, &count);
+
+		for (int i = 0; i < count; i++)
+		{
+			m_Modes.Push(SVideoMode(videoModes[i].width, videoModes[i].height, videoModes[i].refreshRate));
+		}
+		bGotModes = true;
+	}
+
+	return m_Modes;
+}
+
 IWindowGLFW::IWindowGLFW()
 {
 }
@@ -65,7 +97,9 @@ const TArray<IDisplay*> IWindow::GetCurrentDisplays()
 		// TODO: Make this less weird
 		IDisplayGLFW* display = new IDisplayGLFW(monitors[i]);
 		IDisplay* otherDisp = static_cast<IDisplay*>(display);
-		gDisplays.Push(otherDisp); // gDisplays.Push(static_cast<IDisplay*>(display)); Will not work because its expecting an object reference
+		gDisplays.Push(otherDisp); 
+		// gDisplays.Push(static_cast<IDisplay*>(display)); Will not work because its expecting an object reference
+		// I wonder how I can fix this?
 	}
 
 	return TArray<IDisplay*>(gDisplays);
@@ -73,17 +107,17 @@ const TArray<IDisplay*> IWindow::GetCurrentDisplays()
 
 void IWindowGLFW::Bind()
 {
-
+	glfwMakeContextCurrent(m_Window);
 }
 
 void IWindowGLFW::Resize(unsigned int width, unsigned int height)
 {
-
+	glfwSetWindowSize(m_Window, width, height);
 }
 
 void IWindowGLFW::SetTitle(const SString& title)
 {
-
+	glfwSetWindowTitle(m_Window, title.Raw());
 }
 
 void* IWindowGLFW::GetNative() const

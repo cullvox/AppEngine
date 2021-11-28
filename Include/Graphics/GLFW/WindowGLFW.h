@@ -26,6 +26,8 @@ public:
 
 private:
 	GLFWmonitor* m_Monitor;
+	bool bGotModes = false;
+	TArray<SVideoMode> m_Modes;
 
 };
 

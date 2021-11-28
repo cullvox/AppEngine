@@ -18,6 +18,10 @@ void WindowSystemTerminate();
 
 struct SVideoMode
 {
+	SVideoMode()
+	{
+	}
+
 	SVideoMode(unsigned int _width, unsigned int _height, unsigned int _refreshRate)
 		: width(_width), height(_height), refreshRate(_refreshRate)
 	{
