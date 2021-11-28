@@ -9,6 +9,6 @@ namespace AE
 {
 
 template <typename T>
-using Queue = LinkedList<T>;
+using Queue = TLinkedList<T>;
 
 }

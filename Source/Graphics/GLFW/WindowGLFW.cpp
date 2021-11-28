@@ -4,13 +4,26 @@
 namespace AE
 {
 
+static TArray<IDisplay*> gDisplays;
+
 bool WindowSystemInitialize()
 {
 	return glfwInit();
 }
 
+void WindowSystemFreeDisplays()
+{
+	for (unsigned int i = 0; i < gDisplays.Count(); i++)
+	{
+		delete gDisplays[i];
+	}
+
+	gDisplays.Clear();
+}
+
 void WindowSystemTerminate()
 {
+	WindowSystemFreeDisplays();
 	glfwTerminate();
 }
 
@@ -37,6 +50,25 @@ IWindowGLFW::IWindowGLFW(IGraphicsFactory* factory, const SString& title, unsign
 IWindowGLFW::~IWindowGLFW()
 {
 	glfwDestroyWindow(m_Window);
+}
+
+const TArray<IDisplay*> IWindow::GetCurrentDisplays()
+{
+	WindowSystemFreeDisplays();
+
+	// Update displays
+	int monitorsCount = 0;
+	GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
+
+	for (int i = 0 ; i < monitorsCount; i++)
+	{
+		// TODO: Make this less weird
+		IDisplayGLFW* display = new IDisplayGLFW(monitors[i]);
+		IDisplay* otherDisp = static_cast<IDisplay*>(display);
+		gDisplays.Push(otherDisp); // gDisplays.Push(static_cast<IDisplay*>(display)); Will not work because its expecting an object reference
+	}
+
+	return TArray<IDisplay*>(gDisplays);
 }
 
 void IWindowGLFW::Bind()

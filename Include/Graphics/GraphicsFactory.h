@@ -39,6 +39,9 @@ public:
 	virtual ~IGraphicsFactory() = 0;
 
 public:
+	EGraphicsAPI GetAPI() const 
+	{ return m_API; }
+
 	virtual IWindow*			CreateWindow(const SString& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr) = 0; // Setting a display will cause the window to go into fullscreen on desktops
 	virtual IVertexBuffer*		CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount) = 0;
 	virtual IInstanceBuffer*	CreateInstanceBuffer() = 0;
@@ -49,12 +52,6 @@ public:
 	template <typename T>
 	IVertexBuffer*				CreateVertexBuffer(const VertexFormat& format, const TArray<T>& vertices) 
 	{ return CreateVertexBuffer(format, vertices.Raw(), vertices.Count()); }
-
-public:
-	virtual const TArray<IDisplay*>& RetrieveDisplays() = 0; // Retrieves the current system displays
-	
-	EGraphicsAPI GetAPI() const 
-	{ return m_API; }
 
 protected:
 	EGraphicsAPI m_API;

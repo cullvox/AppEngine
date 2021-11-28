@@ -31,7 +31,14 @@ FGraphicsFactoryOpenGL::FGraphicsFactoryOpenGL(const SGraphicsOptions& options)
 IWindow* FGraphicsFactoryOpenGL::CreateWindow(const SString& title, unsigned int width, unsigned int height, IDisplay* display)
 {
 	FWindowOpenGLGLFW* window = new FWindowOpenGLGLFW();
-	return 
+
+	if (!CheckAndInitializeGLAD())
+	{
+		delete window;
+		return nullptr;
+	}
+
+	return window;
 }
 
 }

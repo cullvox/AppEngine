@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Suppress.h"
 #include "Graphics/OpenGL/WindowOpenGL.h"
 #include "Graphics/GLFW/WindowGLFW.h"
 
@@ -17,10 +18,10 @@ public:
 	~FWindowOpenGLGLFW();
 
 public:
-
-public:
 	IResource& operator=(const IResource& other);
 
+protected:
+	IResource* ShallowCopy(const IResource* other);
 
 };
 

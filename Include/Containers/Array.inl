@@ -13,7 +13,7 @@ template <typename T>
 TArray<T>::TArray(const TArray<T>& other)
 {
 	Resize(other.Capacity());
-	memcpy(m_Raw, other.GetRaw(), sizeof(T) * other.Capacity());
+	memcpy(m_Raw, other.Raw(), sizeof(T) * other.Capacity());
 	m_Count = other.Count();
 }
 

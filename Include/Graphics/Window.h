@@ -16,7 +16,7 @@ namespace AE
 bool WindowSystemInitialize();
 void WindowSystemTerminate();
 
-struct SVideoMode : public INonCopyable
+struct SVideoMode
 {
 	SVideoMode(unsigned int _width, unsigned int _height, unsigned int _refreshRate)
 		: width(_width), height(_height), refreshRate(_refreshRate)
@@ -55,12 +55,15 @@ public:
 	virtual ~IWindow() = 0;
 
 public:
+//	Displays
+	static const TArray<IDisplay*> GetCurrentDisplays();
+
+//	Window
 	virtual void Resize(unsigned int width, unsigned int height) = 0;
 	virtual void SetTitle(const SString& title) = 0;
 	virtual void* GetNative () const = 0;
 
-// Drawing
-public:
+//	Drawing
 	virtual void SetView(const SMatrix4f& view) = 0;
 	virtual void SetProjection(const SMatrix4f& projection) = 0;
 	virtual void SubmitToQueue(const SSubmission& submission) = 0;

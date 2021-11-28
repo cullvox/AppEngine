@@ -28,9 +28,6 @@ public:
 public:
 	static void* GetLoadProc();
 
-protected:
-	virtual IResource* ShallowCopy(const IResource* other) = 0;
-
 };
 
 }

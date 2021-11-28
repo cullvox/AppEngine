@@ -7,22 +7,22 @@ namespace AE
 {
 
 template <typename T>
-class LinkedList
+class TLinkedList
 {
 
 public:
-	struct LinkedListElement
+	struct SLinkedListElement
 	{
 		T value;
-		LinkedListElement* next;
-		LinkedListElement* prev;
+		SLinkedListElement* next;
+		SLinkedListElement* prev;
 	};
 
 public:
-	LinkedList(); // Default
-	LinkedList(const LinkedList& other); // Copy
-	LinkedList(const LinkedList&& other); // Move
-	~LinkedList();
+	TLinkedList(); // Default
+	TLinkedList(const TLinkedList& other); // Copy
+	TLinkedList(const TLinkedList&& other); // Move
+	~TLinkedList();
 
 public:
 	void Push(T& value);
@@ -34,8 +34,8 @@ public:
 
 
 public:
-	LinkedListElement* m_Head;
-	LinkedListElement* m_Last;
+	SLinkedListElement* m_Head;
+	SLinkedListElement* m_Last;
 	unsigned int m_Count;
 
 };

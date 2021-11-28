@@ -2,10 +2,32 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Suppress.h"
 #include "Graphics/Window.h"
 
 namespace AE
 {
+
+class IDisplayGLFW : public virtual IDisplay
+{
+
+public:
+	IDisplayGLFW();
+	IDisplayGLFW(const IDisplay& other);
+	IDisplayGLFW(GLFWmonitor* monitor);
+	~IDisplayGLFW();
+
+public:
+	IDisplay& operator=(const IDisplay& other);
+
+public:
+	const TArray<SVideoMode>& GetVideoModes();
+	const void* GetNative() const;
+
+private:
+	GLFWmonitor* m_Monitor;
+
+};
 
 class IWindowGLFW : public virtual IWindow
 {
@@ -26,7 +48,7 @@ public:
 	virtual void* GetNative() const;
 
 protected:
-	IResource* ShallowCopy(const IResource* other);
+	virtual IResource* ShallowCopy(const IResource* other);
 
 private:
 	GLFWwindow* m_Window = nullptr;

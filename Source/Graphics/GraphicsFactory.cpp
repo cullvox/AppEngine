@@ -10,13 +10,14 @@ IGraphicsFactory* CreateGraphicsFactory(const SGraphicsOptions& options)
 	switch (options.api)
 	{
 	case EGraphicsAPI::eOpenGL:
-		
+		return new FGraphicsFactoryOpenGL(options);
 		break;
 
 	default:
-		break;
+		throw "Invalid graphics API!";
 	}
 
+	return nullptr;
 }
 
-}
+} 

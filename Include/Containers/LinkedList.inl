@@ -2,14 +2,14 @@ namespace AE
 {
 
 template <typename T>
-LinkedList<T>::LinkedList()
+TLinkedList<T>::TLinkedList()
 {
 }
 
 template <typename T>
-LinkedList<T>::LinkedList(const LinkedList<T>& other)
+TLinkedList<T>::TLinkedList(const TLinkedList<T>& other)
 {
-	LinkedListElement* element = other.m_Head;
+	SLinkedListElement* element = other.m_Head;
 	for (unsigned int c = 0; c < other.Count(); c++)
 	{
 		Push(element->value);
@@ -18,7 +18,7 @@ LinkedList<T>::LinkedList(const LinkedList<T>& other)
 }
 
 template <typename T>
-LinkedList<T>::LinkedList(const LinkedList<T>&& other)
+TLinkedList<T>::TLinkedList(const TLinkedList<T>&& other)
 {
 	m_Head = other.m_Head;
 	m_Last = other.m_Last;
@@ -28,10 +28,10 @@ LinkedList<T>::LinkedList(const LinkedList<T>&& other)
 }
 
 template <typename T>
-void LinkedList<T>::Push(T& value)
+void TLinkedList<T>::Push(T& value)
 {
 	// Create new element
-	LinkedListElement* element = new LinkedListElement();
+	SLinkedListElement* element = new SLinkedListElement();
 	element->value = value;
 	element->next = nullptr;
 	element->prev = m_Last;
@@ -52,7 +52,7 @@ void LinkedList<T>::Push(T& value)
 }
 
 template <typename T>
-void LinkedList<T>::Pop()
+void TLinkedList<T>::Pop()
 {
 
 	// Check the head
@@ -61,7 +61,7 @@ void LinkedList<T>::Pop()
 		return;
 	}
 
-	LinkedListElement* element = m_Head;
+	SLinkedListElement* element = m_Head;
 
 	// Update head
 	m_Head = m_Head->next;
@@ -81,25 +81,25 @@ void LinkedList<T>::Pop()
 }
 
 template <typename T>
-T& LinkedList<T>::Front() const
+T& TLinkedList<T>::Front() const
 {
 	return m_Head->value;
 }
 
 template <typename T>
-T& LinkedList<T>::Back() const
+T& TLinkedList<T>::Back() const
 {
 	return m_Last->value;
 }
 
 template <typename T>
-unsigned int LinkedList<T>::Count() const
+unsigned int TLinkedList<T>::Count() const
 {
 	return m_Count;
 }
 
 template <typename T>
-bool LinkedList<T>::Empty() const
+bool TLinkedList<T>::Empty() const
 {
 	return m_Count == 0;
 }
