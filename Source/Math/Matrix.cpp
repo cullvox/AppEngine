@@ -9,35 +9,35 @@
 namespace AE
 {
 
-Matrix4f::Matrix4f()
+SMatrix4f::SMatrix4f()
 {
 	*this = Identity();
 }
 
-Matrix4f::Matrix4f(const Matrix4f& other)
+SMatrix4f::SMatrix4f(const SMatrix4f& other)
 {
 	memcpy(m_Raw, other.Raw(), sizeof(m_Raw));
 }
 
-Matrix4f::Matrix4f(Matrix4f&& other)
+SMatrix4f::SMatrix4f(SMatrix4f&& other)
 {
 	memmove(m_Raw, other.Raw(), sizeof(m_Raw));
 }
 
-Matrix4f::Matrix4f(float raw[16])
+SMatrix4f::SMatrix4f(float raw[16])
 {
 	memcpy(m_Raw, raw, sizeof(m_Raw));
 }
 
-Matrix4f Matrix4f::Identity()
+SMatrix4f SMatrix4f::Identity()
 {
 	float identity[16] = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
-	return Matrix4f(identity);
+	return SMatrix4f(identity);
 }
 
-Matrix4f Matrix4f::Add(const Matrix4f& other) const
+SMatrix4f SMatrix4f::Add(const SMatrix4f& other) const
 {
-	Matrix4f result;
+	SMatrix4f result;
 	for (unsigned int i = 0; i < 16; i++)
 	{
 		result.m_Raw[i] = m_Raw[i] + other.m_Raw[i];
@@ -46,9 +46,9 @@ Matrix4f Matrix4f::Add(const Matrix4f& other) const
 	return result;
 }
 
-Matrix4f Matrix4f::Sub(const Matrix4f& other) const
+SMatrix4f SMatrix4f::Sub(const SMatrix4f& other) const
 {
-	Matrix4f result;
+	SMatrix4f result;
 	for (unsigned int i = 0; i < 16; i++)
 	{
 		result.m_Raw[i] = m_Raw[i] - other.m_Raw[i];
@@ -57,14 +57,14 @@ Matrix4f Matrix4f::Sub(const Matrix4f& other) const
 	return result;
 }
 
-Matrix4f Matrix4f::Mul(const Matrix4f& other) const
+SMatrix4f SMatrix4f::Mul(const SMatrix4f& other) const
 {
-	Matrix4f result;
+	SMatrix4f result;
 	cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 4, 4, 4, 1.0, m_Raw, 4, other.Raw(), 4, 0.0f, result.Raw(), 4);
 	return result;
 }
 
-Matrix4f& Matrix4f::Translate(const Vector3f& position)
+SMatrix4f& SMatrix4f::Translate(const Vector3f& position)
 {
 	m_Raw[3] += position.x;
 	m_Raw[7] += position.y;
@@ -72,7 +72,7 @@ Matrix4f& Matrix4f::Translate(const Vector3f& position)
 	return *this;
 }
 
-Matrix4f& Matrix4f::TranslateTo(const Vector3f& position)
+SMatrix4f& SMatrix4f::TranslateTo(const Vector3f& position)
 {
 	m_Raw[3] = position.x;
 	m_Raw[7] = position.y;
@@ -80,7 +80,7 @@ Matrix4f& Matrix4f::TranslateTo(const Vector3f& position)
 	return *this;
 }
 
-Matrix4f& Matrix4f::Rotate(const Quaternion& rotation)
+SMatrix4f& SMatrix4f::Rotate(const Quaternion& rotation)
 {
 	// Stolen from http://www.songho.ca/opengl/gl_matrix.html
 	// This could probably be simplified more for my requirements
@@ -120,7 +120,7 @@ Matrix4f& Matrix4f::Rotate(const Quaternion& rotation)
     return *this;
 }
 
-Matrix4f& Matrix4f::RotateX(const float angle)
+SMatrix4f& SMatrix4f::RotateX(const float angle)
 {
     float c = cosf(angle * DEGTORAD);
     float s = sinf(angle * DEGTORAD);
@@ -141,7 +141,7 @@ Matrix4f& Matrix4f::RotateX(const float angle)
     return *this;
 }
 
-Matrix4f& Matrix4f::RotateY(const float angle)
+SMatrix4f& SMatrix4f::RotateY(const float angle)
 {
 	float c = cosf(angle * DEGTORAD);
     float s = sinf(angle * DEGTORAD);
@@ -162,7 +162,7 @@ Matrix4f& Matrix4f::RotateY(const float angle)
     return *this;
 }
 
-Matrix4f& Matrix4f::RotateZ(const float angle)
+SMatrix4f& SMatrix4f::RotateZ(const float angle)
 {
     float c = cosf(angle * DEGTORAD);
     float s = sinf(angle * DEGTORAD);
@@ -183,7 +183,7 @@ Matrix4f& Matrix4f::RotateZ(const float angle)
 	return *this;
 }
 
-Matrix4f& Matrix4f::Rotate(const Vector3f& euler)
+SMatrix4f& SMatrix4f::Rotate(const Vector3f& euler)
 {
 	RotateX(euler.x);
 	RotateY(euler.y);
@@ -191,12 +191,12 @@ Matrix4f& Matrix4f::Rotate(const Vector3f& euler)
 	return *this;
 }
 
-Matrix4f& Matrix4f::RotateTo(const Vector3f& euler)
+SMatrix4f& SMatrix4f::RotateTo(const Vector3f& euler)
 {
 	return *this;
 }
 
-Matrix4f& Matrix4f::LookAt(const Vector3f& target)
+SMatrix4f& SMatrix4f::LookAt(const Vector3f& target)
 {
 	Vector3f position (m_Raw[12], m_Raw[13], m_Raw[14]);
 	Vector3f forward = target - position;
@@ -221,7 +221,7 @@ Matrix4f& Matrix4f::LookAt(const Vector3f& target)
 	return *this;
 }
 
-Matrix4f& Matrix4f::Scale(const Vector3f& scale)
+SMatrix4f& SMatrix4f::Scale(const Vector3f& scale)
 {
 	m_Raw[0] *= scale.x;
 	m_Raw[5] *= scale.y;
@@ -229,7 +229,7 @@ Matrix4f& Matrix4f::Scale(const Vector3f& scale)
 	return *this;
 }
 
-Matrix4f& Matrix4f::ScaleTo(const Vector3f& scale)
+SMatrix4f& SMatrix4f::ScaleTo(const Vector3f& scale)
 {
 	m_Raw[0] = scale.x;
 	m_Raw[5] = scale.y;
@@ -237,7 +237,7 @@ Matrix4f& Matrix4f::ScaleTo(const Vector3f& scale)
 	return *this;
 }
 
-Matrix4f& Matrix4f::Scale(const float uniformScale)
+SMatrix4f& SMatrix4f::Scale(const float uniformScale)
 {
 	m_Raw[0] *= uniformScale; 
 	m_Raw[5] *= uniformScale;
@@ -245,28 +245,28 @@ Matrix4f& Matrix4f::Scale(const float uniformScale)
 	return *this;
 }
 
-Matrix4f& Matrix4f::ScaleTo(const float uniformScale)
+SMatrix4f& SMatrix4f::ScaleTo(const float uniformScale)
 {
 	m_Raw[0] = m_Raw[5] = m_Raw[10] = uniformScale;
 	return *this;
 }
 
-Matrix4f Matrix4f::operator+(const Matrix4f& other) const
+SMatrix4f SMatrix4f::operator+(const SMatrix4f& other) const
 {
 	return Add(other);
 }
 
-Matrix4f Matrix4f::operator-(const Matrix4f& other) const
+SMatrix4f SMatrix4f::operator-(const SMatrix4f& other) const
 {
 	return Sub(other);
 }
 
-Matrix4f Matrix4f::operator*(const Matrix4f& other) const
+SMatrix4f SMatrix4f::operator*(const SMatrix4f& other) const
 {
 	return Mul(other);
 }
 
-Matrix4f Matrix4f::operator=(const Matrix4f& other)
+SMatrix4f SMatrix4f::operator=(const SMatrix4f& other)
 {
 	memcpy(m_Raw, other.Raw(), sizeof(m_Raw));
 	return *this;

@@ -1,6 +1,6 @@
 #pragma once
 
-// Window.h
+// IWindow.h
 // Contains a display and system window/drawable surface abstraction
 
 #include "Types.h"
@@ -16,49 +16,58 @@ namespace AE
 bool WindowSystemInitialize();
 void WindowSystemTerminate();
 
-struct VideoMode : public NonCopyable
+struct SVideoMode : public INonCopyable
 {
+	SVideoMode(unsigned int _width, unsigned int _height, unsigned int _refreshRate)
+		: width(_width), height(_height), refreshRate(_refreshRate)
+	{
+	}
+
 	unsigned int width;
 	unsigned int height;
 	unsigned int refreshRate;
 };
 
-struct Display : public NonCopyable
+class IDisplay
 {
 
 public:
-	Display();
-	virtual ~Display();
+	IDisplay();
+	IDisplay(const IDisplay& other);
+	virtual ~IDisplay();
 
 public:
-	const Array<VideoMode>& GetVideoModes();
+	IDisplay& operator=(const IDisplay& other);
+
+public:
+	const TArray<SVideoMode>& GetVideoModes();
+	const void* GetNative() const;
 
 };
 
 class IWindow : public IResource
 {
 public:
-	Window();
-	Window(const Window& other); // Copy Handle
-	Window(GraphicsDevice* device);
-	Window(GraphicsDevice* device, const String& title, unsigned int width, unsigned int height, Display* display);
-	virtual ~Window() = 0;
+	IWindow();
+	IWindow(const IWindow& other); // Preforms a Shallow Copy
+	IWindow(IGraphicsFactory* factory);
+	IWindow(IGraphicsFactory* factory, const SString& title, unsigned int width, unsigned int height, IDisplay* display);
+	virtual ~IWindow() = 0;
 
 public:
-	virtual bool Open(const String& title, unsigned int width, unsigned int height, Display* display) = 0;
-	virtual void Close() = 0;
-	virtual void Bind() const = 0; // Changes the context to this window
 	virtual void Resize(unsigned int width, unsigned int height) = 0;
-	virtual void SetTitle(const String& title) = 0;
+	virtual void SetTitle(const SString& title) = 0;
+	virtual void* GetNative () const = 0;
 
+// Drawing
 public:
-	virtual void SetView(const Matrix4f& view) = 0;
-	virtual void SetProjection(const Matrix4f& projection) = 0;
-	virtual void QueueSubmission(const Submission& submission) = 0;
+	virtual void SetView(const SMatrix4f& view) = 0;
+	virtual void SetProjection(const SMatrix4f& projection) = 0;
+	virtual void SubmitToQueue(const SSubmission& submission) = 0;
 	virtual void NextFrame() = 0; // Submits the framesubmissions and then clears queue
 
 private:
-	Queue<Submission> m_Submissions; // The draw calls to submit this frame
+	Queue<SSubmission> m_Submissions; // The draw calls to submit this frame
 
 };
 

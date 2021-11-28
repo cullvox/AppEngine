@@ -3,7 +3,7 @@ namespace AE
 {
 
 template <class...Types>
-String String::Format(const String& format, Types...)
+SString SString::Format(const SString& format, Types...)
 {
 
 

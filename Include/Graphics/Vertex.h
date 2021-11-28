@@ -108,7 +108,7 @@ public:
 	}
 
 private:
-	Array<VertexElement> m_Elements;
+	TArray<VertexElement> m_Elements;
 
 };
 
@@ -140,8 +140,8 @@ struct VertexSkinned
 	Vector3f position;
 	Vector3f normal;
 	Vector2f texCoord;
-	Vector4f indices;
-	Vector4f weights;
+	SVector4f indices;
+	SVector4f weights;
 };
 
 static VertexFormat DefaultVertexSkinnedFormat({

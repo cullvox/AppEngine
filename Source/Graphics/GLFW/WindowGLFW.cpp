@@ -1,4 +1,4 @@
-#include "Graphics/GraphicsDevice.h"
+#include "Graphics/GraphicsFactory.h"
 #include "Graphics/GLFW/WindowGLFW.h"
 
 namespace AE
@@ -6,51 +6,63 @@ namespace AE
 
 bool WindowSystemInitialize()
 {
-    return glfwInit();
+	return glfwInit();
 }
 
 void WindowSystemTerminate()
 {
-    glfwTerminate();
+	glfwTerminate();
 }
 
-WindowGLFW::WindowGLFW()
+IWindowGLFW::IWindowGLFW()
 {
 }
 
-WindowGLFW::WindowGLFW(const WindowGLFW& other)
-    : m_Window(other.m_Window)
+IWindowGLFW::IWindowGLFW(const IWindowGLFW& other)
+	: m_Window(other.m_Window)
 {
 }
 
-WindowGLFW::WindowGLFW(GraphicsDevice* graphicsDevice, const String& title, unsigned int width, unsigned int height, Display* display)
+IWindowGLFW::IWindowGLFW(IGraphicsFactory* factory, const SString& title, unsigned int width, unsigned int height, IDisplay* display)
+{
+	CHECK_GRAPHICS_FACTORY(factory)
+
+	m_Window = glfwCreateWindow(width, height, title.Raw(), (GLFWmonitor*)display, nullptr);
+
+	if (m_Window == nullptr)
+		throw;
+
+}
+
+IWindowGLFW::~IWindowGLFW()
+{
+	glfwDestroyWindow(m_Window);
+}
+
+void IWindowGLFW::Bind()
 {
 
 }
 
-WindowGLFW::~WindowGLFW()
+void IWindowGLFW::Resize(unsigned int width, unsigned int height)
 {
-    if (IsOpen())
-        Close();
+
 }
 
-bool WindowGLFW::Open(const String& title, unsigned int width, unsigned int height, Display* display)
+void IWindowGLFW::SetTitle(const SString& title)
 {
-    if (m_GraphicsDevice == nullptr)
-    {
-        return false;
-    }
 
-    if (IsOpen())
-    {
-        return false; // Window is already open!
-    }
+}
 
-    m_Window = glfwCreateWindow(width, height, title.Raw(), (GLFWmonitor*)display, nullptr);
-    if (m_Window == nullptr)
-        return false; // Could not create a GLFW window!
+void* IWindowGLFW::GetNative() const
+{
+	return m_Window;
+}
 
-    return true;
+IResource* IWindowGLFW::ShallowCopy(const IResource* other)
+{
+	m_Window = dynamic_cast<const IWindowGLFW*>(other)->m_Window;
+	return this;
 }
 
 }

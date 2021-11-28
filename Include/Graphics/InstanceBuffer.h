@@ -7,17 +7,16 @@ namespace AE
 
 class GraphicsDevice;
 
-class InstanceBuffer
+class IInstanceBuffer
 {
 public:
-	InstanceBuffer(); // Default
-	InstanceBuffer(const InstanceBuffer& other); // Copy
-
-	InstanceBuffer(GraphicsDevice* graphicsDevice, unsigned int instanceCount, unsigned int stride);
-	~InstanceBuffer();
+	IInstanceBuffer(); // Default
+	IInstanceBuffer(const IInstanceBuffer& other); // Copy
+	IInstanceBuffer(IGraphicsFactory* factory, unsigned int instanceCount, unsigned int stride);
+	~IInstanceBuffer();
 
 public:
-	virtual void Bind(const GraphicsDevice& graphicsDevice) const = 0;
+	virtual void Bind() const = 0;
 	virtual void Update(const void* data, const size_t size) = 0;
 };
 

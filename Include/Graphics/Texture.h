@@ -5,12 +5,13 @@
 namespace AE
 {
 
-class Texture : public Buffer
+class ITexture : public IBuffer
 {
 
 public:
-	Texture(GraphicsDevice* device, unsigned char* data);
-	~Texture();
+	ITexture();
+	ITexture(IGraphicsFactory* factory, unsigned char* data);
+	~ITexture();
 
 };
 

@@ -6,19 +6,22 @@
 namespace AE
 {
 
-class IndexBuffer : public Buffer
+class IIndexBuffer : public IBuffer
 {
 
 public:
-	IndexBuffer();
-	IndexBuffer(GraphicsDevice* device, Array<unsigned short> indices);
-	
-	~IndexBuffer();
+	IIndexBuffer();
+	IIndexBuffer(const IIndexBuffer& other);
+	IIndexBuffer(IGraphicsFactory* factory, TArray<unsigned short> indices);
+	~IIndexBuffer();
+
+public:
+	IIndexBuffer& operator=(const IIndexBuffer& other);
 
 public:
 	virtual void Bind() const = 0;
 	virtual void Update(const void* data, unsigned int size) = 0;
-	virtual void Update(Array<unsigned short> indices) = 0;
+	virtual void Update(TArray<unsigned short> indices) = 0;
 
 };
 

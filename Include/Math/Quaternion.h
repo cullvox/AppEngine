@@ -5,7 +5,7 @@
 namespace AE
 {
 
-struct Matrix4f;
+struct SMatrix4f;
 
 struct Quaternion
 {
@@ -31,7 +31,7 @@ public:
 	void RotateToEuler(Vector3f euler);
 
 public:
-	Matrix4f ToMatrix();
+	SMatrix4f ToMatrix();
 
 
 public:

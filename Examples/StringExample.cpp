@@ -3,7 +3,7 @@
 int main()
 {
 
-    AE::String str("Hello, World!");
+    AE::SString str("Hello, World!");
     str.Set("Testing Strings!");
 
 }

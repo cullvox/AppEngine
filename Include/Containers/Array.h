@@ -9,17 +9,17 @@ namespace AE
 {
 
 template <typename T>
-class Array
+class TArray
 {
 	
 public:
-	Array(); // Default
-	Array(const Array& other); // Copy
+	TArray(); // Default
+	TArray(const TArray& other); // Copy
 
-	Array(const T* raw, unsigned int count);
-	Array(std::initializer_list<T> elements);
+	TArray(const T* raw, unsigned int count);
+	TArray(std::initializer_list<T> elements);
 
-	~Array();
+	~TArray();
 
 public:
 	void Resize(unsigned int capacity);
@@ -37,7 +37,7 @@ public:
 	T* Raw() const;
 
 public:
-	Array& operator=(const Array& other); // Copy
+	TArray& operator=(const TArray& other); // Copy
 	T& operator[](unsigned int index) const;
 
 private:

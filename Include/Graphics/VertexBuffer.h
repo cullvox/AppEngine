@@ -7,19 +7,18 @@
 namespace AE
 {
 
-class VertexBuffer : public Buffer
+class IVertexBuffer : public IBuffer
 {
 	
 public:
-	VertexBuffer(); // Default
-	VertexBuffer(const VertexBuffer& other); // Copy
-	VertexBuffer(GraphicsDevice* device, const VertexFormat& format);
-	virtual ~VertexBuffer() = 0;
+	IVertexBuffer(); // Default
+	IVertexBuffer(const IVertexBuffer& other); // Copy
+	IVertexBuffer(IGraphicsFactory* factory, const VertexFormat& format, const void* , unsigned int size);
+	virtual ~IVertexBuffer() = 0;
 
 public:
 	virtual void Bind() const = 0;
-	virtual void Update(const void* data, unsigned int size) = 0;
-	virtual Buffer* Copy() = 0;
+	virtual void Update(const void* vertices, unsigned int vertexCount) = 0;
 };
 
 }

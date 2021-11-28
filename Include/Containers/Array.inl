@@ -4,13 +4,13 @@ namespace AE
 {
 
 template <typename T>
-Array<T>::Array()
+TArray<T>::TArray()
 {
 	Resize(5);
 }
 
 template <typename T>
-Array<T>::Array(const Array<T>& other)
+TArray<T>::TArray(const TArray<T>& other)
 {
 	Resize(other.Capacity());
 	memcpy(m_Raw, other.GetRaw(), sizeof(T) * other.Capacity());
@@ -18,7 +18,7 @@ Array<T>::Array(const Array<T>& other)
 }
 
 template <typename T>
-Array<T>::Array(const T* raw, unsigned int count)
+TArray<T>::TArray(const T* raw, unsigned int count)
 {
 	Resize(count);
 	memcpy(m_Raw, raw, sizeof(T) * count);
@@ -26,20 +26,20 @@ Array<T>::Array(const T* raw, unsigned int count)
 }
 	
 template <typename T>
-Array<T>::Array(std::initializer_list<T> elements)
+TArray<T>::TArray(std::initializer_list<T> elements)
 {
 	Push(elements);
 }
 
 template <typename T>
-Array<T>::~Array()
+TArray<T>::~TArray()
 {
 	if (m_Raw != nullptr)
 		delete m_Raw;
 }
 
 template <typename T>
-void Array<T>::Resize(unsigned int capacity)
+void TArray<T>::Resize(unsigned int capacity)
 {
 	if (m_Capacity == capacity)
 		return;
@@ -58,25 +58,25 @@ void Array<T>::Resize(unsigned int capacity)
 }
 
 template <typename T>
-void Array<T>::Set(unsigned int index, T& value)
+void TArray<T>::Set(unsigned int index, T& value)
 {
 	m_Raw[index] = value;
 }
 
 template <typename T>
-T& Array<T>::Get(unsigned int index) const
+T& TArray<T>::Get(unsigned int index) const
 {
 	return m_Raw[index];
 }
 
 template <typename T>
-void Array<T>::Remove(unsigned int index)
+void TArray<T>::Remove(unsigned int index)
 {
 	memcpy(m_Raw[index], m_Raw[index] + 1, sizeof(T) * m_Count);
 }
 
 template <typename T>
-void Array<T>::Push(T& value)
+void TArray<T>::Push(T& value)
 {
 	// Check for resize 
 	if (m_Count == m_Capacity)
@@ -89,7 +89,7 @@ void Array<T>::Push(T& value)
 }
 
 template <typename T>
-void Array<T>::Push(std::initializer_list<T> elements)
+void TArray<T>::Push(std::initializer_list<T> elements)
 {
 	typename std::initializer_list<T>::iterator it;
 	for (it = elements.begin(); it != elements.end(); it++)
@@ -99,50 +99,50 @@ void Array<T>::Push(std::initializer_list<T> elements)
 }
 
 template <typename T>
-void Array<T>::Pop()
+void TArray<T>::Pop()
 {
 	Remove(m_Count);
 }
 
 template <typename T>
-void Array<T>::Clear()
+void TArray<T>::Clear()
 {
 	memset(m_Raw, 0, sizeof(T) * m_Capacity);
 	m_Count = 0;
 }
 
 template <typename T>
-T& Array<T>::First() const
+T& TArray<T>::First() const
 {
 	return Get(0);
 }
 
 template <typename T>
-T& Array<T>::Last() const
+T& TArray<T>::Last() const
 {
 	return Get(m_Count - 1);
 }
 
 template <typename T>
-unsigned int Array<T>::Count() const
+unsigned int TArray<T>::Count() const
 {
 	return m_Count;
 }
 
 template <typename T>
-unsigned int Array<T>::Capacity() const
+unsigned int TArray<T>::Capacity() const
 {
 	return m_Capacity;
 }
 
 template <typename T>
-T* Array<T>::Raw() const
+T* TArray<T>::Raw() const
 {
 	return m_Raw;
 }
 
 template <typename T>
-Array<T>& Array<T>::operator=(const Array<T>& other) // Copy
+TArray<T>& TArray<T>::operator=(const TArray<T>& other) // Copy
 {
 	if (&other == this)
 		return *this;
@@ -155,7 +155,7 @@ Array<T>& Array<T>::operator=(const Array<T>& other) // Copy
 }
 
 template <typename T>
-T& Array<T>::operator[](unsigned int index) const
+T& TArray<T>::operator[](unsigned int index) const
 {
 	return Get(index);
 }

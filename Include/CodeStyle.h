@@ -34,13 +34,14 @@ namespace AE // Since this project is called AppEngine we use the namespace AE i
 //			Use T to describe templated types
 //			Use I to describe interfaces and abstract classes 
 //			Use E to describe an enum
+//			Use F to describe final
 //		
 //		Values
-//			The first letter of the first word in a value definition is lowercase unless its a boolean
+//			The first letter of the first word in a value definition is lowercase (camelCase)
 //			Use a lowercase 'b' before defining boolean values
 //
 //		Functions
-//			In a class the first letter of the first word is lowercase (camelCase)
+//			The first letter of every word is capitalized (PascalCase)
 //			If a function is returning a boolean value the name should be a question (for example, isWindowOpen() or isTrueFalse())
 
 // Classes
@@ -60,30 +61,42 @@ public:
 //			Always have a copy constructor except when the class inherits from GNonCopyable
 //			Active constructors are optional
 	GCodeStyle(); // Always have a default constructor
-	GCodeStyle(const CodeStyle& other); // You usually want a copy constructor unless it inherits NotCopyable
-	GCodeStyle(const String& name, float foo, int var); // This is an active constructor, its active because it does things
+	GCodeStyle(const GCodeStyle& other); // You usually want a copy constructor unless it inherits NotCopyable
+	GCodeStyle(const SString& name, float foo, int var); // This is an active constructor, its active because it does things
 	~GCodeStyle();
-
-public:
-	void doSomething();
-//		Templates
-//			Use templates to your advantage when ever you need to
-//			Place the template tag above the declaration/definition when possible
-	template <typename T> 
-	void doSomethingTemplated(const T& value);
-	void doSomethingElse();
-
-	void isFooNormalized();
 
 public:
 	virtual GCodeStyle& operator=(const GCodeStyle& other); // Copy assignment required when a copy constructor is available
 
+public:
+	void DoSomething();
+//		Templates
+//			Use templates to your advantage when ever you need to
+//			Place the template tag above the declaration/definition when possible
+	template <typename T> 
+	void DoSomethingTemplated(const T& value);
+	void DoSomethingElse();
+
+	void IsFooNormalized();
+
 //		Variables
 //			Most variables in a class should be private and accessable through functions
 private:
-	String name;
-	bool bFooNormalized();
+	SString name;
+	bool bFooNormalized;
 		// This white space after a class is defined is vital
+
+
+// Class Ordering
+//
+//		Constructors/Destructors
+//		Virtual Constructors
+//		Operator Overloads
+//		Functions
+//		Variables
+//		Friends
+//	Every member ordered in these grops are also subordered from public, protected to private
+
 };
 
 // Structs

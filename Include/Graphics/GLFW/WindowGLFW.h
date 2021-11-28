@@ -7,26 +7,29 @@
 namespace AE
 {
 
-class WindowGLFW : public Window
+class IWindowGLFW : public virtual IWindow
 {
 
 public:
-    WindowGLFW(); // Default
-    WindowGLFW(const WindowGLFW& other); // Copy
-    WindowGLFW(GraphicsDevice* graphicsDevice, const String& title, unsigned int width, unsigned int height, Display* display);
-    ~WindowGLFW();
+	IWindowGLFW(); // Default
+	IWindowGLFW(const IWindowGLFW& other); // Preforms a Shallow Copy
+	IWindowGLFW(IGraphicsFactory* factory, const SString& title, unsigned int width, unsigned int height, IDisplay* display);
+	~IWindowGLFW();
 
 public:
-    bool IsOpen();
-    bool Open(const String& title, unsigned int width, unsigned int height, Display* display);
-    void Close();
+	IWindowGLFW& operator=(const IWindowGLFW& other);
 
-    void Bind();
-    void Resize(unsigned int width, unsigned int height);
-    void SetTitle(const String& title);
+public:
+	virtual void Bind();
+	virtual void Resize(unsigned int width, unsigned int height);
+	virtual void SetTitle(const SString& title);
+	virtual void* GetNative() const;
+
+protected:
+	IResource* ShallowCopy(const IResource* other);
 
 private:
-    GLFWwindow* m_Window = nullptr;
+	GLFWwindow* m_Window = nullptr;
 
 };
 

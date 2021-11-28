@@ -7,12 +7,12 @@ class File
 
 public:
     File();
-    File(const String& path);
+    File(const SString& path);
     
     ~File();
 
 public:
-    void Rename(const String& newPath);
+    void Rename(const SString& newPath);
     unsigned int Size() const;
     
 

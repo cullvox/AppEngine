@@ -6,19 +6,21 @@
 namespace AE
 {
 
-class Pipeline : public Resource
+class IGraphicsFactory;
+
+class IPipeline : public IResource
 {
 	
 public:
-	Pipeline();
-	Pipeline(const Pipeline& other); // Copy Handle
-	Pipeline(Array<unsigned char> vertex, Array<unsigned char> fragment);
-	~Pipeline();
+	IPipeline();
+	IPipeline(const IPipeline& other); // Copy Handle
+	IPipeline(IGraphicsFactory* factory, TArray<unsigned char> vertex, TArray<unsigned char> fragment);
+	~IPipeline();
 
 public:
-	void SetVector4Parameter(const String& name, const Vector4f& value);
-	void SetMatrix4Parameter(const String& name, const Matrix4f& value);
-	
+	void setVector4Parameter(const SString& name, const SVector4f& value);
+	void setMatrix4Parameter(const SString& name, const SMatrix4f& value);
+
 };
 
 }

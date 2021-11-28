@@ -3,12 +3,12 @@
 namespace AE
 {
 
-class NonCopyable {
+class INonCopyable {
 
 public:
-    NonCopyable() = default;
-    NonCopyable(const NonCopyable&) = delete;
-    NonCopyable& operator=(const NonCopyable&) = delete;
+    INonCopyable() = default;
+    INonCopyable(const INonCopyable&) = delete;
+    INonCopyable& operator=(const INonCopyable&) = delete;
 
 };
 
