@@ -15,11 +15,12 @@ public:
 public:
 	TArray<IDisplay*>	RetrieveDisplays();
 
-	IWindow*			CreateWindow(const SString& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr);
-	IVertexBuffer*		CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount);
-	IInstanceBuffer*	CreateInstanceBuffer();
-	ITexture*			CreateTexture(unsigned int width, unsigned int height, const TArray<unsigned char>& pixels);
-	IPipeline*			CreatePipeline(const TArray<unsigned char>& vertex, const TArray<unsigned char>& fragment);
+	TUniquePointer<IWindow>			CreateWindow(const FString& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr);
+	TUniquePointer<IVertexBuffer>	CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount);
+	TUniquePointer<IIndexBuffer>	CreateIndexBuffer(const TArray<unsigned short>& indices);
+	TUniquePointer<IInstanceBuffer>	CreateInstanceBuffer();
+	TUniquePointer<ITexture>		CreateTexture(unsigned int width, unsigned int height, const TArray<unsigned char>& pixels);
+	TUniquePointer<IPipeline>		CreatePipeline(const TArray<unsigned char>& vertex, const TArray<unsigned char>& fragment);
 
 };
 

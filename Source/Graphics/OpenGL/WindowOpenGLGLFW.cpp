@@ -4,7 +4,7 @@
 namespace AE
 {
 
-static void* GetLoadProc()
+void* IWindowOpenGL::GetLoadProc()
 {
 	return glfwGetProcAddress;
 }
@@ -19,7 +19,7 @@ FWindowOpenGLGLFW::FWindowOpenGLGLFW(const FWindowOpenGLGLFW& other)
 	ShallowCopy(static_cast<const IResource*>(&other));
 }
 
-FWindowOpenGLGLFW::FWindowOpenGLGLFW(IGraphicsFactory* factory, const SString& title, unsigned int width, unsigned int height, IDisplay* display)
+FWindowOpenGLGLFW::FWindowOpenGLGLFW(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display)
 	: IWindowOpenGL(factory, title, width, height, display), IWindowGLFW(factory, title, width, height, display)
 {
 }

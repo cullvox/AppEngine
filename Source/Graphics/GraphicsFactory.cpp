@@ -4,13 +4,13 @@
 namespace AE
 {
 
-IGraphicsFactory* CreateGraphicsFactory(const SGraphicsOptions& options)
+TUniquePointer<IGraphicsFactory> CreateGraphicsFactory(const SGraphicsOptions& options)
 {
 
 	switch (options.api)
 	{
 	case EGraphicsAPI::eOpenGL:
-		return new FGraphicsFactoryOpenGL(options);
+		return TUniquePointer<IGraphicsFactory>(new FGraphicsFactoryOpenGL(options));
 		break;
 
 	default:

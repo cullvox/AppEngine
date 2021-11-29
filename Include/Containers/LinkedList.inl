@@ -18,13 +18,9 @@ TLinkedList<T>::TLinkedList(const TLinkedList<T>& other)
 }
 
 template <typename T>
-TLinkedList<T>::TLinkedList(const TLinkedList<T>&& other)
+TLinkedList<T>::~TLinkedList()
 {
-	m_Head = other.m_Head;
-	m_Last = other.m_Last;
-	m_Count = other.m_Count;
-	other.m_Head = other.m_Last = nullptr;
-	other.m_Count = 0;
+	Clear();
 }
 
 template <typename T>
@@ -102,6 +98,13 @@ template <typename T>
 bool TLinkedList<T>::Empty() const
 {
 	return m_Count == 0;
+}
+
+template <typename T>
+void TLinkedList<T>::Clear()
+{
+	for (unsigned int i = 0; i < Count(); i++)
+		Pop();
 }
 
 }

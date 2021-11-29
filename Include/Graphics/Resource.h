@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Cloneable.h"
+
 // Resource.h
 // Contains object abstractions of runtime data that can be used when rendering
 
@@ -9,28 +11,28 @@ namespace AE
 class IGraphicsFactory;
 
 // Resources should be abstractions of API data and are basically handles
-class IResource
+class IResource : public ICloneable
 {
 	
-public: // Constructors
-	IResource(); // Default
-	IResource(const IResource& other); // Preforms a Shallow Copy
+public:
+	IResource();
 	IResource(IGraphicsFactory* factory);
-	virtual ~IResource() = 0;
+	virtual ~IResource() {};
 
-protected: // Virtual Constructors
-	virtual IResource* ShallowCopy(const IResource* other) = 0; // Copys the resources handles to this
+protected:
+	IResource(const IResource& other);
 
-public: // Operator Overloading
-	virtual IResource& operator=(const IResource& other) = 0; // Shallow Copy Assignment
+public:
+	virtual IResource& operator=(const IResource& other) = 0; // Clones
 
-public: // Functions
+public:
+	virtual IResource* Clone() = 0; // Clones only handles
 	virtual void Bind() = 0;
 
-protected: // Variables
+protected:
 	IGraphicsFactory* m_Factory;
 
-public: // Friendship
+public:
 	friend class IGraphicsFactory;
 
 };
@@ -39,12 +41,15 @@ class IBuffer : public IResource
 {
 
 public:
-	IBuffer(); // Default
-	IBuffer(const IBuffer& other); // Copy
+	IBuffer();
 	IBuffer(IGraphicsFactory* factory);
-	virtual ~IBuffer() = 0;
+	virtual ~IBuffer() {};
+
+protected:
+	IBuffer(const IBuffer& other);
 
 public:
+	virtual IBuffer* Clone() = 0;
 	virtual void Bind() const = 0;
 	virtual void Update(const void* data, unsigned int size) = 0;
 

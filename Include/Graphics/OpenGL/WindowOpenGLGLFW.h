@@ -14,7 +14,7 @@ class FWindowOpenGLGLFW final : public IWindowOpenGL, public IWindowGLFW
 public:
 	FWindowOpenGLGLFW(); // Default
 	FWindowOpenGLGLFW(const FWindowOpenGLGLFW& window);
-	FWindowOpenGLGLFW(IGraphicsFactory* factory, const SString& title, unsigned int width, unsigned int height, IDisplay* display);
+	FWindowOpenGLGLFW(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display);
 	~FWindowOpenGLGLFW();
 
 public:

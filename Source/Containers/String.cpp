@@ -17,46 +17,46 @@ unsigned int StringRawUtils::Size(const char* raw)
 }
 
 // STRING
-SString::SString()
+FString::FString()
 {
 }
 
-SString::SString(const SString& other)
+FString::FString(const FString& other)
 {
 	Set(other);
 }
 
-SString::SString(SString&& other)
+FString::FString(FString&& other)
 {
 	Set(other);
 	other.Clear();
 }
 
-SString::SString(std::initializer_list<char> elements)
+FString::FString(std::initializer_list<char> elements)
 {
 	m_Arr.Push(elements);
 }
 
-SString::SString(const char* raw)
+FString::FString(const char* raw)
 {
 	Set(raw);
 }
 
-SString::SString(const char* raw, unsigned int size)
+FString::FString(const char* raw, unsigned int size)
 {
 	Set(raw, size);
 }
 
-SString::~SString()
+FString::~FString()
 {
 }
 
-void SString::Set(const SString& other)
+void FString::Set(const FString& other)
 {
 	m_Arr = other.m_Arr;
 }
 
-void SString::Set(const char* raw, unsigned int size)
+void FString::Set(const char* raw, unsigned int size)
 {
 	// Clear the string
 	Clear();
@@ -67,24 +67,35 @@ void SString::Set(const char* raw, unsigned int size)
 		m_Arr.Push((char)raw[i]);
 }
 
-void SString::Set(const char* raw)
+void FString::Set(const char* raw)
 {
 	Set(raw, StringRawUtils::Size(raw));
 }
 
-void SString::Clear()
+void FString::Clear()
 {
 	m_Arr.Clear();
 }
 
-const char* SString::Raw() const
+const char* FString::Raw() const
 {
 	return m_Arr.Raw();
 }
 
-unsigned int SString::Size() const
+unsigned int FString::Size() const
 {
 	return m_Arr.Count();
+}
+
+FString& FString::Append(const FString& other)
+{
+	unsigned int oldSize = Size();
+	m_Arr.Resize(Size() + other.Size());
+
+	for (unsigned int i = 0; i < other.Size(); i++)
+	{
+		m_Arr[i + oldSize] = other.Raw()[i];
+	}
 }
 
 }

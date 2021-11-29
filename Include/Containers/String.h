@@ -17,38 +17,40 @@ public:
 	static unsigned int Size(const char* raw);
 };
 
-class SString
+class FString
 {
 
 public:
-	SString();
-	SString(const SString& other); // Copy
-	SString(SString&& other); // Move
+	FString();
+	FString(const FString& other); // Copy
+	FString(FString&& other); // Move
 
-	SString(std::initializer_list<char> elements);
-	SString(const char* raw); // MUST be a null-terminated string
-	SString(const char* raw, unsigned int size);
+	FString(std::initializer_list<char> elements);
+	FString(const char* raw); // MUST be a null-terminated string
+	FString(const char* raw, unsigned int size);
 	
-	~SString();
+	~FString();
 
 public:
-	void Set(const SString& other);
+	void Set(const FString& other);
 	void Set(const char* raw); // Must be a null-terminated string
 	void Set(const char* raw, unsigned int size);
 	void Clear();
-	void Append(SString& other);
+	FString& Append(const FString& other);
 	const char* Raw() const;
 	unsigned int Size() const;
+
+	
 
 public:
 	// The string formatter only supports simple formatting tools
 	// %i for int or longs, %f for float or double, %s for string, and %b for bool
 	template <class...Types>
-	static SString Format(const SString& format, Types...);
+	static FString Format(const FString& format, Types...);
 
 public:
-	SString& operator=(const SString& other);
-	SString& operator+(const SString& other);
+	FString& operator=(const FString& other);
+	FString& operator+(const FString& other);
 
 private:
 	TArray<char> m_Arr;

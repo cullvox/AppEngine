@@ -16,7 +16,10 @@ public:
 	~IIndexBuffer();
 
 public:
-	IIndexBuffer& operator=(const IIndexBuffer& other);
+	virtual IResource* ShallowCopy(const IResource* other);
+
+public:
+	virtual IResource* operator=(const IResource* other);
 
 public:
 	virtual void Bind() const = 0;

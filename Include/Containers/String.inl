@@ -3,7 +3,7 @@ namespace AE
 {
 
 template <class...Types>
-SString SString::Format(const SString& format, Types...)
+FString FString::Format(const FString& format, Types...)
 {
 
 

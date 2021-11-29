@@ -6,11 +6,12 @@ namespace AE
 class Logger
 {
 public:
-    Logger(const SString& path);
+    Logger(const FString& path);
     ~Logger();
 
 public:
-    static void LogInfo(const SString& functionName, unsigned int line, const SString& message);
+    static void LogInfo(const FString& functionName, unsigned int line, const FString& message);
+    static void LogWarning(const FString& functionName, unsigned int line, const FString& message);
 
     void LogInfo();
     void LogWarning();

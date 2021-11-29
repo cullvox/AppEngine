@@ -21,7 +21,6 @@ public:
 public:
 	TLinkedList(); // Default
 	TLinkedList(const TLinkedList& other); // Copy
-	TLinkedList(const TLinkedList&& other); // Move
 	~TLinkedList();
 
 public:
@@ -31,7 +30,7 @@ public:
 	T& Back() const;
 	unsigned int Count() const;
 	bool Empty() const;
-
+	void Clear();
 
 public:
 	SLinkedListElement* m_Head;

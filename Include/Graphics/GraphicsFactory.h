@@ -8,6 +8,7 @@
 #include "Containers/Array.h"
 #include "Containers/String.h"
 #include "Containers/Queue.h"
+#include "Containers/UniquePointer.h"
 #include "Graphics/Window.h"
 #include "Graphics/Vertex.h"
 #include "Graphics/VertexBuffer.h"
@@ -35,22 +36,22 @@ class IGraphicsFactory : public INonCopyable
 {
 
 public:
-	IGraphicsFactory(const SGraphicsOptions& options = {});
-	virtual ~IGraphicsFactory() = 0;
+	IGraphicsFactory(const SGraphicsOptions& options = {}) {};
+	virtual ~IGraphicsFactory() {};
 
 public:
 	EGraphicsAPI GetAPI() const 
 	{ return m_API; }
 
-	virtual IWindow*			CreateWindow(const SString& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr) = 0; // Setting a display will cause the window to go into fullscreen on desktops
-	virtual IVertexBuffer*		CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount) = 0;
-	virtual IInstanceBuffer*	CreateInstanceBuffer() = 0;
-	virtual ITexture*			CreateTexture(unsigned int width, unsigned int height, const TArray<unsigned char>& pixels) = 0;
-	virtual IPipeline*			CreatePipeline(const TArray<unsigned char>& vertex, const TArray<unsigned char>& fragment) = 0;
+	virtual TUniquePointer<IWindow>			CreateWindow(const FString& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr) = 0; // Setting a display will cause the window to go into fullscreen on desktops
+	virtual TUniquePointer<IVertexBuffer>	CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount) = 0;
+	virtual TUniquePointer<IInstanceBuffer>	CreateInstanceBuffer() = 0;
+	virtual TUniquePointer<ITexture>		CreateTexture(unsigned int width, unsigned int height, const TArray<unsigned char>& pixels) = 0;
+	virtual TUniquePointer<IPipeline>		CreatePipeline(const TArray<unsigned char>& vertex, const TArray<unsigned char>& fragment) = 0;
 
 	// Alternative create functions
 	template <typename T>
-	IVertexBuffer*				CreateVertexBuffer(const VertexFormat& format, const TArray<T>& vertices) 
+	TUniquePointer<IVertexBuffer>			CreateVertexBuffer(const VertexFormat& format, const TArray<T>& vertices) 
 	{ return CreateVertexBuffer(format, vertices.Raw(), vertices.Count()); }
 
 protected:
@@ -61,7 +62,7 @@ protected:
 
 };
 
-IGraphicsFactory* CreateGraphicsFactory(const SGraphicsOptions& options);
+TUniquePointer<IGraphicsFactory> CreateGraphicsFactory(const SGraphicsOptions& options);
 void DestroyGraphicsFactory(IGraphicsFactory* graphicsFactory);
 
 #define CHECK_GRAPHICS_FACTORY(factory) if (factory == NULL && (factory->GetAPI() <= EGraphicsAPI::eMAX)  ) { throw; }

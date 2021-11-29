@@ -1,29 +1,30 @@
+#include "GlobalInitializer.h"
+
+#include "Containers/UniquePointer.h"
+
 #include "Graphics/GraphicsFactory.h"
 #include "Graphics/GLFW/WindowGLFW.h"
 
 namespace AE
 {
 
-static TArray<IDisplay*> gDisplays;
-
-bool WindowSystemInitialize()
+class FGLFWGlobalInitializer final : virtual public IGlobalInitializer
 {
-	return glfwInit();
-}
-
-void WindowSystemFreeDisplays()
-{
-	for (unsigned int i = 0; i < gDisplays.Count(); i++)
+public:
+	FGLFWGlobalInitializer()
 	{
-		delete gDisplays[i];
+		if (!glfwInit())
+		{
+			FLogger::
+			throw "Could not init GLFW!";
+		}
 	}
 
-	gDisplays.Clear();
-}
+	~FGLFWGlobalInitializer();
+};
 
 void WindowSystemTerminate()
 {
-	WindowSystemFreeDisplays();
 	glfwTerminate();
 }
 
@@ -38,6 +39,11 @@ IDisplayGLFW::IDisplayGLFW(const IDisplay& other)
 IDisplayGLFW::IDisplayGLFW(GLFWmonitor* monitor)
 {
 	m_Monitor = monitor;
+}
+
+IDisplayGLFW* IDisplayGLFW::Clone()
+{
+	return new IDisplayGLFW(m_Monitor);
 }
 
 const TArray<SVideoMode>& IDisplayGLFW::GetVideoModes()
@@ -66,9 +72,10 @@ IWindowGLFW::IWindowGLFW()
 IWindowGLFW::IWindowGLFW(const IWindowGLFW& other)
 	: m_Window(other.m_Window)
 {
+	ShallowCopy(&other);
 }
 
-IWindowGLFW::IWindowGLFW(IGraphicsFactory* factory, const SString& title, unsigned int width, unsigned int height, IDisplay* display)
+IWindowGLFW::IWindowGLFW(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display)
 {
 	CHECK_GRAPHICS_FACTORY(factory)
 
@@ -84,9 +91,13 @@ IWindowGLFW::~IWindowGLFW()
 	glfwDestroyWindow(m_Window);
 }
 
-const TArray<IDisplay*> IWindow::GetCurrentDisplays()
+const TArray<IDisplay*> IWindowGLFW::GetCurrentDisplays()
 {
-	WindowSystemFreeDisplays();
+
+	if (!m_Displays.IsEmpty())
+	{
+		WindowSystemFreeDisplays();
+	}
 
 	// Update displays
 	int monitorsCount = 0;
@@ -97,7 +108,7 @@ const TArray<IDisplay*> IWindow::GetCurrentDisplays()
 		// TODO: Make this less weird
 		IDisplayGLFW* display = new IDisplayGLFW(monitors[i]);
 		IDisplay* otherDisp = static_cast<IDisplay*>(display);
-		gDisplays.Push(otherDisp); 
+		m_Displays.Push(otherDisp); 
 		// gDisplays.Push(static_cast<IDisplay*>(display)); Will not work because its expecting an object reference
 		// I wonder how I can fix this?
 	}
@@ -115,7 +126,7 @@ void IWindowGLFW::Resize(unsigned int width, unsigned int height)
 	glfwSetWindowSize(m_Window, width, height);
 }
 
-void IWindowGLFW::SetTitle(const SString& title)
+void IWindowGLFW::SetTitle(const FString& title)
 {
 	glfwSetWindowTitle(m_Window, title.Raw());
 }

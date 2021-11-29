@@ -142,6 +142,12 @@ T* TArray<T>::Raw() const
 }
 
 template <typename T>
+bool TArray<T>::IsEmpty() const
+{
+	return (Count() == 0);
+}
+
+template <typename T>
 TArray<T>& TArray<T>::operator=(const TArray<T>& other) // Copy
 {
 	if (&other == this)

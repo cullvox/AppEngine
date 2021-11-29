@@ -17,6 +17,9 @@ public:
 	virtual ~IVertexBuffer() = 0;
 
 public:
+	virtual IResource* ShallowCopy(const IResource* other);
+
+public:
 	virtual void Bind() const = 0;
 	virtual void Update(const void* vertices, unsigned int vertexCount) = 0;
 };

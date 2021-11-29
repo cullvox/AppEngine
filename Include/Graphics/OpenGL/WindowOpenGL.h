@@ -13,8 +13,11 @@ class IWindowOpenGL : public virtual IWindow
 public:
 	IWindowOpenGL();
 	IWindowOpenGL(const IWindowOpenGL& other);
-	IWindowOpenGL(IGraphicsFactory* factory, const SString& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr);
+	IWindowOpenGL(IGraphicsFactory* factory, const FString& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr);
 	~IWindowOpenGL();
+
+public:
+	virtual IResource* ShallowCopy(const IResource* other);
 
 public:
 	IWindowOpenGL& operator=(const IWindowOpenGL& other);

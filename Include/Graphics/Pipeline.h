@@ -18,8 +18,11 @@ public:
 	~IPipeline();
 
 public:
-	void setVector4Parameter(const SString& name, const SVector4f& value);
-	void setMatrix4Parameter(const SString& name, const SMatrix4f& value);
+	virtual IResource* ShallowCopy(const IResource* other);
+
+public:
+	void setVector4Parameter(const FString& name, const SVector4f& value);
+	void setMatrix4Parameter(const FString& name, const SMatrix4f& value);
 
 };
 

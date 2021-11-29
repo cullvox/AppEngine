@@ -90,7 +90,9 @@ public:
 		}
 	}
 
-	~VertexFormat();
+	~VertexFormat()
+	{
+	}
 
 public:
 	VertexFormat& Add(VertexAttribute attrib, VertexType type, unsigned int elementCount, bool normalized) // Do it the BGFX way instead

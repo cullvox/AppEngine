@@ -32,39 +32,47 @@ struct SVideoMode
 	unsigned int refreshRate;
 };
 
-class IDisplay
+class IDisplay : public ICloneable
 {
 
 public:
-	IDisplay();
-	IDisplay(const IDisplay& other);
-	virtual ~IDisplay();
+	IDisplay() {}
+	virtual ~IDisplay() {}
+
+protected:
+	IDisplay(const IDisplay& other) {}
+
+public:
+	virtual IDisplay* Clone() = 0;
 
 public:
 	IDisplay& operator=(const IDisplay& other);
 
 public:
-	const TArray<SVideoMode>& GetVideoModes();
-	const void* GetNative() const;
+	virtual const TArray<SVideoMode>& GetVideoModes();
+	virtual const void* GetNative() const;
 
 };
 
 class IWindow : public IResource
 {
 public:
-	IWindow();
-	IWindow(const IWindow& other); // Preforms a Shallow Copy
-	IWindow(IGraphicsFactory* factory);
-	IWindow(IGraphicsFactory* factory, const SString& title, unsigned int width, unsigned int height, IDisplay* display);
-	virtual ~IWindow() = 0;
+	IWindow() {}
+	IWindow(const IWindow& other) {} // Preforms a Shallow Copy
+	IWindow(IGraphicsFactory* factory) {}
+	IWindow(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display) {}
+	virtual ~IWindow() {}
+
+public:
+	virtual IWindow* Clone() = 0;
 
 public:
 //	Displays
-	static const TArray<IDisplay*> GetCurrentDisplays();
+	virtual const TArray<IDisplay*> GetCurrentDisplays();
 
 //	Window
 	virtual void Resize(unsigned int width, unsigned int height) = 0;
-	virtual void SetTitle(const SString& title) = 0;
+	virtual void SetTitle(const FString& title) = 0;
 	virtual void* GetNative () const = 0;
 
 //	Drawing
@@ -73,8 +81,12 @@ public:
 	virtual void SubmitToQueue(const SSubmission& submission) = 0;
 	virtual void NextFrame() = 0; // Submits the framesubmissions and then clears queue
 
+protected:
+	static TArray<IDisplay*> m_Displays;
+
 private:
 	Queue<SSubmission> m_Submissions; // The draw calls to submit this frame
+
 
 };
 

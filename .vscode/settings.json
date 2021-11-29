@@ -2,6 +2,8 @@
     "files.associations": {
         "initializer_list": "cpp",
         "functional": "cpp",
-        "*.rh": "cpp"
+        "*.rh": "cpp",
+        "list": "cpp",
+        "vector": "cpp"
     }
 }

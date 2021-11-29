@@ -20,6 +20,9 @@ public:
 	~VertexBufferOpenGL();
 
 public:
+	virtual IResource* ShallowCopy(const IResource* other);
+
+public:
 	void Bind();
 
 private:

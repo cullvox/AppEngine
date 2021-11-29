@@ -28,13 +28,12 @@ namespace AE // Since this project is called AppEngine we use the namespace AE i
 //
 //		Classes
 //			Capitalize every word in a class or struct name (PascalCase)
-//			Use G to describe any general public class in the AE namespace, other prefixes will override this one most times
+//			Use F to describe any general public class in the AE namespace, other prefixes will override this one most times
 //			Use W to describe game objects in a world
 //			Use D to describe structs and data types
 //			Use T to describe templated types
 //			Use I to describe interfaces and abstract classes 
 //			Use E to describe an enum
-//			Use F to describe final
 //		
 //		Values
 //			The first letter of the first word in a value definition is lowercase (camelCase)
@@ -46,7 +45,7 @@ namespace AE // Since this project is called AppEngine we use the namespace AE i
 
 // Classes
 //		You usually want a class with the same name as the file in the file
-class GCodeStyle
+class FCodeStyle
 {
 
 //		Protection
@@ -60,10 +59,10 @@ public:
 //			Always have a default destructor
 //			Always have a copy constructor except when the class inherits from GNonCopyable
 //			Active constructors are optional
-	GCodeStyle(); // Always have a default constructor
-	GCodeStyle(const GCodeStyle& other); // You usually want a copy constructor unless it inherits NotCopyable
-	GCodeStyle(const SString& name, float foo, int var); // This is an active constructor, its active because it does things
-	~GCodeStyle();
+	FCodeStyle(); // Always have a default constructor
+	FCodeStyle(const FCodeStyle& other); // You usually want a copy constructor unless it inherits NotCopyable
+	FCodeStyle(const FString& name, float foo, int var); // This is an active constructor, its active because it does things
+	~FCodeStyle();
 
 public:
 	virtual GCodeStyle& operator=(const GCodeStyle& other); // Copy assignment required when a copy constructor is available
@@ -82,7 +81,7 @@ public:
 //		Variables
 //			Most variables in a class should be private and accessable through functions
 private:
-	SString name;
+	FString name;
 	bool bFooNormalized;
 		// This white space after a class is defined is vital
 

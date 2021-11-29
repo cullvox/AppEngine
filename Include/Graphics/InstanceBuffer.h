@@ -16,6 +16,9 @@ public:
 	~IInstanceBuffer();
 
 public:
+	virtual IResource* ShallowCopy(const IResource* other);
+
+public:
 	virtual void Bind() const = 0;
 	virtual void Update(const void* data, const size_t size) = 0;
 };

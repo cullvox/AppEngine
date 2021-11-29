@@ -13,6 +13,9 @@ public:
 	ITexture(IGraphicsFactory* factory, unsigned char* data);
 	~ITexture();
 
+public:
+	virtual IResource* ShallowCopy(const IResource* other);
+
 };
 
 }

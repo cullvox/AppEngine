@@ -35,6 +35,7 @@ public:
 	unsigned int Count() const;
 	unsigned int Capacity() const; 
 	T* Raw() const;
+	bool IsEmpty() const;
 
 public:
 	TArray& operator=(const TArray& other); // Copy
