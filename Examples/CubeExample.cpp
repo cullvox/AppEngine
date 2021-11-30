@@ -4,5 +4,4 @@ int main()
 {
 	AE::SGraphicsOptions graphicsOptions = {};
 	std::unique_ptr<AE::IGraphicsFactory> graphicsFactory = AE::CreateGraphicsFactory(graphicsOptions);
-	AE::DestroyGraphicsFactory(graphicsFactory.get());
 }

@@ -7,8 +7,8 @@ class ICloneable
 {
 
 public:
-	ICloneable();
-	virtual ~ICloneable() = 0;
+	ICloneable() {};
+	virtual ~ICloneable() {};
 protected:
 	ICloneable(const ICloneable&); // Redefine this in cloned class
 
