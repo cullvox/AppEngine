@@ -10,14 +10,14 @@ namespace AE
 
 class IGraphicsFactory;
 
-// Resources should be abstractions of API data and are basically handles
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 class IResource : public virtual ICloneable
 {
 	
 public:
-	IResource();
-	IResource(IGraphicsFactory* factory);
-	virtual ~IResource() {};
+	IResource() {};
+	virtual ~IResource() = 0 {};
 protected:
 	IResource(const IResource& other);
 
@@ -32,7 +32,9 @@ public:
 
 };
 
-class IBuffer : public IResource
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+class IBuffer : public virtual IResource
 {
 
 public:

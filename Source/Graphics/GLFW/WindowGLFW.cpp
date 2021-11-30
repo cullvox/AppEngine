@@ -18,19 +18,13 @@ public:
 		}
 	}
 
-	~FGLFWGlobalInitializer();
+	~FGLFWGlobalInitializer()
+	{
+		glfwTerminate();
+	}
 };
 
-void WindowSystemTerminate()
-{
-	glfwTerminate();
-}
-
 IDisplayGLFW::IDisplayGLFW()
-{
-}
-
-IDisplayGLFW::IDisplayGLFW(const IDisplay& other)
 {
 }
 
@@ -39,9 +33,23 @@ IDisplayGLFW::IDisplayGLFW(GLFWmonitor* monitor)
 	m_Monitor = monitor;
 }
 
+IDisplayGLFW::IDisplayGLFW(const IDisplayGLFW& other)
+	: m_Monitor(other.m_Monitor), m_VideoModes(other.m_VideoModes)
+{
+}
+
+IDisplayGLFW::~IDisplayGLFW()
+{
+}
+
 IDisplayGLFW* IDisplayGLFW::Clone()
 {
 	return new IDisplayGLFW(m_Monitor);
+}
+
+const void* IDisplayGLFW::GetNative() const
+{
+	return m_Monitor;
 }
 
 const std::vector<FVideoMode>& IDisplayGLFW::GetVideoModes()
@@ -55,16 +63,18 @@ const std::vector<FVideoMode>& IDisplayGLFW::GetVideoModes()
 
 		for (int i = 0; i < count; i++)
 		{
-			m_Modes.push_back(FVideoMode(videoModes[i].width, videoModes[i].height, videoModes[i].refreshRate));
+			m_VideoModes.push_back(FVideoMode(videoModes[i].width, videoModes[i].height, videoModes[i].refreshRate));
 		}
 		bGotModes = true;
 	}
 
-	return m_Modes;
+	return m_VideoModes;
 }
 
 IWindowGLFW::IWindowGLFW()
 {
+	if (m_Window != nullptr)
+		glfwDestroyWindow(m_Window);
 }
 
 IWindowGLFW::IWindowGLFW(const IWindowGLFW& other)
@@ -88,18 +98,20 @@ IWindowGLFW::~IWindowGLFW()
 	glfwDestroyWindow(m_Window);
 }
 
+static std::vector<std::unique_ptr<IDisplay>> g_Displays;
+
 const std::vector<std::unique_ptr<IDisplay>>& IWindowGLFW::GetCurrentDisplays()
 {
-	mg_Displays.clear();
+	g_Displays.clear();
 
 	// Update displays
 	int monitorsCount = 0;
 	GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
 
 	for (int i = 0 ; i < monitorsCount; i++)
-		mg_Displays.push_back(std::make_unique<IDisplayGLFW>(IDisplayGLFW(monitors[i])));
+		g_Displays.push_back(std::make_unique<IDisplayGLFW>(IDisplayGLFW(monitors[i])));
 
-	return mg_Displays;
+	return g_Displays;
 }
 
 void IWindowGLFW::Bind()

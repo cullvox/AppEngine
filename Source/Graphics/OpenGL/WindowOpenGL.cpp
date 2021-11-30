@@ -19,21 +19,20 @@ IWindowOpenGL::IWindowOpenGL(const IWindowOpenGL& other)
 {
 }
 
-void SetView(const SMatrix4f& view)
+void IWindowOpenGL::SetView(const SMatrix4f& view)
 {
 }
 
-void SetProjection(const SMatrix4f& projection)
+void IWindowOpenGL::SetProjection(const SMatrix4f& projection)
 {
 }
 
-void SubmitToQueue(const FSubmission& submission)
+void IWindowOpenGL::SubmitToQueue(const FSubmission& submission)
 {
 }
 
-void NextFrame()
+void IWindowOpenGL::NextFrame()
 {
 }
-
 
 }

@@ -8,12 +8,12 @@
 namespace AE
 {
 
-class IDisplayGLFW : public virtual IDisplay
+class IDisplayGLFW : public IDisplay
 {
 
 public:
 	IDisplayGLFW();
-	IDisplayGLFW(const IDisplay& other);
+	IDisplayGLFW(const IDisplayGLFW& other);
 	IDisplayGLFW(GLFWmonitor* monitor);
 	~IDisplayGLFW();
 
@@ -29,9 +29,9 @@ public:
 	const void* GetNative() const;
 
 private:
-	bool bGotModes = false;
 	GLFWmonitor* m_Monitor;
-	std::vector<FVideoMode> m_Modes;
+	std::vector<FVideoMode> m_VideoModes;
+	bool bGotModes;
 
 };
 

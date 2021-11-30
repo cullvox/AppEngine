@@ -44,10 +44,10 @@ public:
 	{ return m_API; }
 
 	virtual std::unique_ptr<IWindow>			CreateWindow(const std::string& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr) = 0; // Setting a display will cause the window to go into fullscreen on desktops
-	virtual std::unique_ptr<IVertexBuffer>	CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount) = 0;
+	virtual std::unique_ptr<IVertexBuffer>		CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount) = 0;
 	virtual std::unique_ptr<IInstanceBuffer>	CreateInstanceBuffer() = 0;
-	virtual std::unique_ptr<ITexture>		CreateTexture(unsigned int width, unsigned int height, const std::vector<unsigned char>& pixels) = 0;
-	virtual std::unique_ptr<IPipeline>		CreatePipeline(const std::vector<unsigned char>& vertex, const std::vector<unsigned char>& fragment) = 0;
+	virtual std::unique_ptr<ITexture>			CreateTexture(unsigned int width, unsigned int height, const std::vector<unsigned char>& pixels) = 0;
+	virtual std::unique_ptr<IPipeline>			CreatePipeline(const std::vector<unsigned char>& vertex, const std::vector<unsigned char>& fragment) = 0;
 
 	// Alternative create functions
 	template <typename T>

@@ -57,7 +57,7 @@ add_library (AppEngine STATIC ${Sources})
 target_include_directories (AppEngine PUBLIC "Include")
 
 # Link required thirdparty libraries
-target_link_libraries (AppEngine CBLAS glfw)
+target_link_libraries (AppEngine CBLAS glfw fmt)
 
 # Link found required libraries
 

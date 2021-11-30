@@ -14,6 +14,7 @@ public:
     ~FLogger();
 
 public:
+    static void LogGeneral(const std::string& category, const std::string& functionName, unsigned int line, const std::string& message);
     static void LogInfo(const std::string& functionName, unsigned int line, const std::string& message);
     static void LogWarning(const std::string& functionName, unsigned int line, const std::string& message);
     static void LogError(const std::string& functionName, unsigned int line, const std::string& message);

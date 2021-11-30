@@ -10,7 +10,7 @@ namespace AE
 {
 
 // Not much really has to be done here since GLFW was built for OpenGL
-class FWindowOpenGLGLFW final : public IWindowOpenGL, public IWindowGLFW
+class FWindowOpenGLGLFW final : public virtual IWindowOpenGL, public virtual IWindowGLFW
 {
 
 public:
