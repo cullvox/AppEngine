@@ -1,7 +1,5 @@
 #include "GlobalInitializer.h"
-
-#include "Containers/UniquePointer.h"
-
+#include "IO/Logger.h"
 #include "Graphics/GraphicsFactory.h"
 #include "Graphics/GLFW/WindowGLFW.h"
 
@@ -15,8 +13,8 @@ public:
 	{
 		if (!glfwInit())
 		{
-			FLogger::
-			throw "Could not init GLFW!";
+			LOG_ERROR("Could not init GLFW!");
+			throw;
 		}
 	}
 
@@ -46,7 +44,7 @@ IDisplayGLFW* IDisplayGLFW::Clone()
 	return new IDisplayGLFW(m_Monitor);
 }
 
-const TArray<SVideoMode>& IDisplayGLFW::GetVideoModes()
+const std::vector<FVideoMode>& IDisplayGLFW::GetVideoModes()
 {
 
 	if (!bGotModes)
@@ -57,7 +55,7 @@ const TArray<SVideoMode>& IDisplayGLFW::GetVideoModes()
 
 		for (int i = 0; i < count; i++)
 		{
-			m_Modes.Push(SVideoMode(videoModes[i].width, videoModes[i].height, videoModes[i].refreshRate));
+			m_Modes.push_back(FVideoMode(videoModes[i].width, videoModes[i].height, videoModes[i].refreshRate));
 		}
 		bGotModes = true;
 	}
@@ -72,14 +70,13 @@ IWindowGLFW::IWindowGLFW()
 IWindowGLFW::IWindowGLFW(const IWindowGLFW& other)
 	: m_Window(other.m_Window)
 {
-	ShallowCopy(&other);
 }
 
-IWindowGLFW::IWindowGLFW(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display)
+IWindowGLFW::IWindowGLFW(IGraphicsFactory* factory, const std::string& title, unsigned int width, unsigned int height, IDisplay* display)
 {
 	CHECK_GRAPHICS_FACTORY(factory)
 
-	m_Window = glfwCreateWindow(width, height, title.Raw(), (GLFWmonitor*)display, nullptr);
+	m_Window = glfwCreateWindow(width, height, title.c_str(), (GLFWmonitor*)display->GetNative(), nullptr);
 
 	if (m_Window == nullptr)
 		throw;
@@ -91,29 +88,18 @@ IWindowGLFW::~IWindowGLFW()
 	glfwDestroyWindow(m_Window);
 }
 
-const TArray<IDisplay*> IWindowGLFW::GetCurrentDisplays()
+const std::vector<std::unique_ptr<IDisplay>>& IWindowGLFW::GetCurrentDisplays()
 {
-
-	if (!m_Displays.IsEmpty())
-	{
-		WindowSystemFreeDisplays();
-	}
+	mg_Displays.clear();
 
 	// Update displays
 	int monitorsCount = 0;
 	GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
 
 	for (int i = 0 ; i < monitorsCount; i++)
-	{
-		// TODO: Make this less weird
-		IDisplayGLFW* display = new IDisplayGLFW(monitors[i]);
-		IDisplay* otherDisp = static_cast<IDisplay*>(display);
-		m_Displays.Push(otherDisp); 
-		// gDisplays.Push(static_cast<IDisplay*>(display)); Will not work because its expecting an object reference
-		// I wonder how I can fix this?
-	}
+		mg_Displays.push_back(std::make_unique<IDisplayGLFW>(IDisplayGLFW(monitors[i])));
 
-	return TArray<IDisplay*>(gDisplays);
+	return mg_Displays;
 }
 
 void IWindowGLFW::Bind()
@@ -126,20 +112,14 @@ void IWindowGLFW::Resize(unsigned int width, unsigned int height)
 	glfwSetWindowSize(m_Window, width, height);
 }
 
-void IWindowGLFW::SetTitle(const FString& title)
+void IWindowGLFW::SetTitle(const std::string& title)
 {
-	glfwSetWindowTitle(m_Window, title.Raw());
+	glfwSetWindowTitle(m_Window, title.c_str());
 }
 
 void* IWindowGLFW::GetNative() const
 {
 	return m_Window;
-}
-
-IResource* IWindowGLFW::ShallowCopy(const IResource* other)
-{
-	m_Window = dynamic_cast<const IWindowGLFW*>(other)->m_Window;
-	return this;
 }
 
 }

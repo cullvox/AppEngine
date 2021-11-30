@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Containers/Array.h"
 #include "Graphics/Resource.h"
 #include "Graphics/Vertex.h"
 
@@ -13,7 +12,7 @@ class IVertexBuffer : public IBuffer
 public:
 	IVertexBuffer(); // Default
 	IVertexBuffer(const IVertexBuffer& other); // Copy
-	IVertexBuffer(IGraphicsFactory* factory, const VertexFormat& format, const void* , unsigned int size);
+	IVertexBuffer(IGraphicsFactory* factory, const VertexFormat& format, const void* vertices, unsigned int verticesCount);
 	virtual ~IVertexBuffer() = 0;
 
 public:

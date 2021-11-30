@@ -3,8 +3,10 @@
 // IWindow.h
 // Contains a display and system window/drawable surface abstraction
 
-#include "Types.h"
-#include "Containers/String.h"
+#include <memory>
+#include <vector>
+#include <string>
+
 #include "Containers/Queue.h"
 #include "Graphics/Resource.h"
 #include "Graphics/Submission.h"
@@ -12,17 +14,15 @@
 namespace AE
 {
 
-// Systems will fill this out personally
-bool WindowSystemInitialize();
-void WindowSystemTerminate();
-
-struct SVideoMode
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+struct FVideoMode
 {
-	SVideoMode()
+	FVideoMode()
 	{
 	}
 
-	SVideoMode(unsigned int _width, unsigned int _height, unsigned int _refreshRate)
+	FVideoMode(unsigned int _width, unsigned int _height, unsigned int _refreshRate)
 		: width(_width), height(_height), refreshRate(_refreshRate)
 	{
 	}
@@ -32,61 +32,60 @@ struct SVideoMode
 	unsigned int refreshRate;
 };
 
-class IDisplay : public ICloneable
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+class IDisplay : public virtual ICloneable
 {
 
 public:
-	IDisplay() {}
-	virtual ~IDisplay() {}
+	IDisplay();
+	virtual ~IDisplay();
+protected:
+	IDisplay(const IDisplay& other);
+
+public:
+	virtual IDisplay* Clone();
+
+	virtual const void* GetNative() const;
+	virtual const std::vector<FVideoMode>& GetVideoModes();
 
 protected:
-	IDisplay(const IDisplay& other) {}
-
-public:
-	virtual IDisplay* Clone() = 0;
-
-public:
-	IDisplay& operator=(const IDisplay& other);
-
-public:
-	virtual const TArray<SVideoMode>& GetVideoModes();
-	virtual const void* GetNative() const;
+	std::vector<FVideoMode> m_VideoModes;
 
 };
 
-class IWindow : public IResource
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+class IWindow : public virtual IResource
 {
 public:
-	IWindow() {}
-	IWindow(const IWindow& other) {} // Preforms a Shallow Copy
-	IWindow(IGraphicsFactory* factory) {}
-	IWindow(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display) {}
+	IWindow();
+	IWindow(IGraphicsFactory* factory, const std::string& title, unsigned int width, unsigned int height, IDisplay* display);
 	virtual ~IWindow() {}
+protected:
+	IWindow(const IWindow& other);
 
 public:
-	virtual IWindow* Clone() = 0;
+	virtual IWindow* Clone();
 
-public:
-//	Displays
-	virtual const TArray<IDisplay*> GetCurrentDisplays();
+	virtual const std::vector<std::unique_ptr<IDisplay>>& GetCurrentDisplays();
 
-//	Window
-	virtual void Resize(unsigned int width, unsigned int height) = 0;
-	virtual void SetTitle(const FString& title) = 0;
-	virtual void* GetNative () const = 0;
+	virtual void Bind();
+	virtual void* GetNative() const;
+	virtual void Resize(unsigned int width, unsigned int height);
+	virtual void SetTitle(const std::string& title);
 
 //	Drawing
-	virtual void SetView(const SMatrix4f& view) = 0;
-	virtual void SetProjection(const SMatrix4f& projection) = 0;
-	virtual void SubmitToQueue(const SSubmission& submission) = 0;
-	virtual void NextFrame() = 0; // Submits the framesubmissions and then clears queue
+	virtual void SetView(const SMatrix4f& view);
+	virtual void SetProjection(const SMatrix4f& projection);
+	virtual void SubmitToQueue(const FSubmission& submission);
+	virtual void NextFrame(); // Submits the framesubmissions and then clears queue
 
 protected:
-	static TArray<IDisplay*> m_Displays;
-
-private:
-	Queue<SSubmission> m_Submissions; // The draw calls to submit this frame
-
+	static std::vector<std::unique_ptr<IDisplay>> mg_Displays;
+	Queue<FSubmission> m_Submissions; // The draw calls to submit this frame
 
 };
 

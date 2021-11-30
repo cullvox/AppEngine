@@ -17,39 +17,39 @@ enum State
 	eDrawPoint
 };
 
-struct SSubmission
+struct FSubmission
 {
-	SSubmission(const SMatrix4f& _model, const IVertexBuffer* _vertexBuffer, const IIndexBuffer* _indexBuffer, const IInstanceBuffer* _instanceBuffer, const IPipeline* _pipeline, State _state)
+	FSubmission(const SMatrix4f& _model, const IVertexBuffer* _vertexBuffer, const IIndexBuffer* _indexBuffer, const IInstanceBuffer* _instanceBuffer, const IPipeline* _pipeline, State _state)
 		: model(_model), vertexBuffer(_vertexBuffer), indexBuffer(_indexBuffer), instanceBuffer(_instanceBuffer), pipeline(_pipeline), state(_state)
 	{
 	}
 
-	SSubmission& setModel(const SMatrix4f& _model)
+	FSubmission& setModel(const SMatrix4f& _model)
 	{
 		model = _model;
 	}
 
-	SSubmission& setVertexBuffer(const IVertexBuffer* _vertexBuffer)
+	FSubmission& setVertexBuffer(const IVertexBuffer* _vertexBuffer)
 	{
 		vertexBuffer = _vertexBuffer;
 	}
 
-	SSubmission& setIndexBuffer(const IIndexBuffer* _indexBuffer)
+	FSubmission& setIndexBuffer(const IIndexBuffer* _indexBuffer)
 	{
 		indexBuffer = _indexBuffer;
 	}
 
-	SSubmission& setInstanceBuffer(const IInstanceBuffer* _instanceBuffer)
+	FSubmission& setInstanceBuffer(const IInstanceBuffer* _instanceBuffer)
 	{
 		instanceBuffer = _instanceBuffer;
 	}
 
-	SSubmission& setState(State _state)
+	FSubmission& setState(State _state)
 	{
 		state = _state;
 	}
 
-	SSubmission& setPipeline(const IPipeline* _pipeline)
+	FSubmission& setPipeline(const IPipeline* _pipeline)
 	{
 		pipeline = _pipeline;
 	}

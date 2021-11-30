@@ -31,40 +31,39 @@ FGraphicsFactoryOpenGL::~FGraphicsFactoryOpenGL()
 {
 }
 
-TUniquePointer<IWindow> FGraphicsFactoryOpenGL::CreateWindow(const FString& title, unsigned int width, unsigned int height, IDisplay* display)
+std::unique_ptr<IWindow> FGraphicsFactoryOpenGL::CreateWindow(const std::string& title, unsigned int width, unsigned int height, IDisplay* display)
 {
-	FWindowOpenGLGLFW* window = new FWindowOpenGLGLFW();
+	std::unique_ptr<IWindow> window = std::unique_ptr<IWindow>((IWindow*)(IWindowOpenGL*)new FWindowOpenGLGLFW(this, title, width, height, display));
 
 	if (!CheckAndInitializeGLAD())
 	{
-		delete window;
 		return nullptr;
 	}
 
-	return window;
+	return std::move(window);
 }
 
-TUniquePointer<IVertexBuffer> FGraphicsFactoryOpenGL::CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount)
+std::unique_ptr<IVertexBuffer> FGraphicsFactoryOpenGL::CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount)
 {
 	return nullptr;
 }
 
-TUniquePointer<IIndexBuffer> FGraphicsFactoryOpenGL::CreateIndexBuffer(const TArray<unsigned short>& indices)
+std::unique_ptr<IIndexBuffer> FGraphicsFactoryOpenGL::CreateIndexBuffer(const std::vector<unsigned short>& indices)
 {
 	return nullptr;
 }
 
-TUniquePointer<IInstanceBuffer> FGraphicsFactoryOpenGL::CreateInstanceBuffer()
+std::unique_ptr<IInstanceBuffer> FGraphicsFactoryOpenGL::CreateInstanceBuffer()
 {
 	return nullptr;
 }
 
-TUniquePointer<ITexture> FGraphicsFactoryOpenGL::CreateTexture(unsigned int width, unsigned int height, const TArray<unsigned char>& pixels)
+std::unique_ptr<ITexture> FGraphicsFactoryOpenGL::CreateTexture(unsigned int width, unsigned int height, const std::vector<unsigned char>& pixels)
 {
 	return nullptr;
 }
 
-TUniquePointer<IPipeline> FGraphicsFactoryOpenGL::CreatePipeline(const TArray<unsigned char>& vertex, const TArray<unsigned char>& fragment)
+std::unique_ptr<IPipeline> FGraphicsFactoryOpenGL::CreatePipeline(const std::vector<unsigned char>& vertex, const std::vector<unsigned char>& fragment)
 {
 	return nullptr;
 }

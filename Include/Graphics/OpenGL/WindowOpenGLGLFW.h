@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Suppress.h"
 #include "Graphics/OpenGL/WindowOpenGL.h"
 #include "Graphics/GLFW/WindowGLFW.h"
@@ -12,16 +14,14 @@ class FWindowOpenGLGLFW final : public IWindowOpenGL, public IWindowGLFW
 {
 
 public:
-	FWindowOpenGLGLFW(); // Default
-	FWindowOpenGLGLFW(const FWindowOpenGLGLFW& window);
-	FWindowOpenGLGLFW(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display);
+	FWindowOpenGLGLFW();
+	FWindowOpenGLGLFW(IGraphicsFactory* factory, const std::string& title, unsigned int width, unsigned int height, IDisplay* display);
 	~FWindowOpenGLGLFW();
+protected:
+	FWindowOpenGLGLFW(const FWindowOpenGLGLFW& window);
 
 public:
-	IResource& operator=(const IResource& other);
-
-protected:
-	IResource* ShallowCopy(const IResource* other);
+	FWindowOpenGLGLFW* Clone();
 
 };
 

@@ -39,10 +39,8 @@ set (Sources "")
 list (APPEND Sources
 	"Source/Math/Vector.cpp"
 	"Source/Math/Matrix.cpp"
-	
-	"Source/Containers/Array.cpp"
+
 	"Source/Containers/LinkedList.cpp"
-	"Source/Containers/String.cpp"
 	
 	"Source/Graphics/GraphicsFactory.cpp"
 	"Source/Graphics/GLFW/WindowGLFW.cpp")
@@ -50,6 +48,7 @@ list (APPEND Sources
 if (APPENGINE_OPENGL)
 	list (APPEND Sources
 		"Source/Graphics/OpenGL/GraphicsFactoryOpenGL.cpp"
+		"Source/Graphics/OpenGL/WindowOpenGL.cpp"
 		"Source/Graphics/OpenGL/WindowOpenGLGLFW.cpp"
 		"Source/Graphics/OpenGL/VertexBufferOpenGL.cpp")
 endif()

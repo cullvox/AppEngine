@@ -10,6 +10,6 @@ class IGlobalInitializer
 public:
 	IGlobalInitializer();
 	virtual ~IGlobalInitializer() = 0;
-}
+};
 
 }

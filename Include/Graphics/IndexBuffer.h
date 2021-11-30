@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Containers/Array.h"
+#include <vector>
+
 #include "Resource.h"
 
 namespace AE
@@ -12,7 +13,7 @@ class IIndexBuffer : public IBuffer
 public:
 	IIndexBuffer();
 	IIndexBuffer(const IIndexBuffer& other);
-	IIndexBuffer(IGraphicsFactory* factory, TArray<unsigned short> indices);
+	IIndexBuffer(IGraphicsFactory* factory, std::vector<unsigned short> indices);
 	~IIndexBuffer();
 
 public:
@@ -24,7 +25,7 @@ public:
 public:
 	virtual void Bind() const = 0;
 	virtual void Update(const void* data, unsigned int size) = 0;
-	virtual void Update(TArray<unsigned short> indices) = 0;
+	virtual void Update(std::vector<unsigned short> indices) = 0;
 
 };
 

@@ -3,6 +3,6 @@
 int main()
 {
 	AE::SGraphicsOptions graphicsOptions = {};
-	AE::IGraphicsFactory* graphicsFactory = AE::CreateGraphicsFactory(graphicsOptions);
-	AE::DestroyGraphicsFactory(graphicsFactory);
+	std::unique_ptr<AE::IGraphicsFactory> graphicsFactory = AE::CreateGraphicsFactory(graphicsOptions);
+	AE::DestroyGraphicsFactory(graphicsFactory.get());
 }

@@ -2,7 +2,6 @@
 
 #include <glad/glad.h>
 
-#include "Containers/Array.h"
 #include "Graphics/VertexBuffer.h"
 
 namespace AE

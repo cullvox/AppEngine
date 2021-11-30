@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Containers/Array.h"
+#include <vector>
+#include <string>
+
 #include "Resource.h"
 
 namespace AE
@@ -13,16 +15,17 @@ class IPipeline : public IResource
 	
 public:
 	IPipeline();
-	IPipeline(const IPipeline& other); // Copy Handle
-	IPipeline(IGraphicsFactory* factory, TArray<unsigned char> vertex, TArray<unsigned char> fragment);
+	IPipeline(IGraphicsFactory* factory, std::vector<unsigned char> vertex, std::vector<unsigned char> fragment);
 	~IPipeline();
+protected:
+	IPipeline(const IPipeline& other);
 
 public:
-	virtual IResource* ShallowCopy(const IResource* other);
+	virtual IPipeline* Clone();
 
 public:
-	void setVector4Parameter(const FString& name, const SVector4f& value);
-	void setMatrix4Parameter(const FString& name, const SMatrix4f& value);
+	void setVector4Parameter(const std::string& name, const SVector4f& value);
+	void setMatrix4Parameter(const std::string& name, const SMatrix4f& value);
 
 };
 

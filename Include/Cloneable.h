@@ -7,11 +7,10 @@ class ICloneable
 {
 
 public:
-	ICloneable() {}
-	virtual ~ICloneable() {}
-
+	ICloneable();
+	virtual ~ICloneable() = 0;
 protected:
-	ICloneable(const ICloneable&) {} // Redefine this in cloned class
+	ICloneable(const ICloneable&); // Redefine this in cloned class
 
 public:
 	virtual ICloneable* Clone() = 0;

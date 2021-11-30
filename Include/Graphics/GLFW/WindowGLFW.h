@@ -25,13 +25,13 @@ public:
 
 public:
 	IDisplayGLFW* Clone();
-	const TArray<SVideoMode>& GetVideoModes();
+	const std::vector<FVideoMode>& GetVideoModes();
 	const void* GetNative() const;
 
 private:
 	bool bGotModes = false;
 	GLFWmonitor* m_Monitor;
-	TArray<SVideoMode> m_Modes;
+	std::vector<FVideoMode> m_Modes;
 
 };
 
@@ -40,22 +40,17 @@ class IWindowGLFW : public virtual IWindow
 
 public:
 	IWindowGLFW(); // Default
-	IWindowGLFW(const IWindowGLFW& other); // Preforms a Shallow Copy
-	IWindowGLFW(IGraphicsFactory* factory, const FString& title, unsigned int width, unsigned int height, IDisplay* display);
+	IWindowGLFW(IGraphicsFactory* factory, const std::string& title, unsigned int width, unsigned int height, IDisplay* display);
 	~IWindowGLFW();
-
 protected:
-	virtual IResource* ShallowCopy(const IResource* other);
+	IWindowGLFW(const IWindowGLFW& other);
 
 public:
-	IWindowGLFW& operator=(const IWindowGLFW& other);
-
-public:
-	virtual const TArray<IDisplay*> GetCurrentDisplays();
+	virtual const std::vector<std::unique_ptr<IDisplay>>& GetCurrentDisplays();
 
 	virtual void Bind();
 	virtual void Resize(unsigned int width, unsigned int height);
-	virtual void SetTitle(const FString& title);
+	virtual void SetTitle(const std::string& title);
 	virtual void* GetNative() const;
 
 private:

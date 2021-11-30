@@ -22,9 +22,13 @@
 
 #ifdef AE_WINDOWS
 	#define AE_DEPRECATED __declspec(deprecated)
+	#define AE_FUNCTION_NAME __FUNCSIG__
+	#define AE_LINE __LINE__
 #else
 	#define AE_DEPRECATED  __attribute__((deprecated))
-#endif
+	#define AE_FUNCTION_NAME __PRETTY_FUNCTION__
+	#define AE_LINE __LINE__
+#endif 
 
 #include <assert.h>
 

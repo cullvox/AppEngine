@@ -5,9 +5,9 @@
 
 #include <initializer_list>
 #include <functional>
+#include <vector>
 
 #include "Math/Vector.h"
-#include "Containers/Array.h"
 
 namespace AE
 {
@@ -83,11 +83,7 @@ public:
 
 	VertexFormat(std::initializer_list<VertexElement> elements) // Do it my way so you're cool
 	{
-		typename std::initializer_list<VertexElement>::iterator it;
-		for (it = elements.begin(); it != elements.end(); ++it)
-		{
-			m_Elements.Push((VertexElement&)*it);
-		}
+		m_Elements = elements;
 	}
 
 	~VertexFormat()
@@ -97,20 +93,20 @@ public:
 public:
 	VertexFormat& Add(VertexAttribute attrib, VertexType type, unsigned int elementCount, bool normalized) // Do it the BGFX way instead
 	{
-		m_Elements.Push(VertexElement(attrib, type, elementCount, normalized));
+		m_Elements.push_back(VertexElement(attrib, type, elementCount, normalized));
 	}
 
 	unsigned int Stride() const
 	{
 		unsigned int stride = 0;
-		for (unsigned int i = 0; i < m_Elements.Count(); i++)
+		for (unsigned int i = 0; i < m_Elements.size(); i++)
 			stride += VertexTypeToSize(m_Elements[i].type);
 
 		return stride;
 	}
 
 private:
-	TArray<VertexElement> m_Elements;
+	std::vector<VertexElement> m_Elements;
 
 };
 

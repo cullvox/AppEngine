@@ -11,19 +11,15 @@ namespace AE
 class IGraphicsFactory;
 
 // Resources should be abstractions of API data and are basically handles
-class IResource : public ICloneable
+class IResource : public virtual ICloneable
 {
 	
 public:
 	IResource();
 	IResource(IGraphicsFactory* factory);
 	virtual ~IResource() {};
-
 protected:
 	IResource(const IResource& other);
-
-public:
-	virtual IResource& operator=(const IResource& other) = 0; // Clones
 
 public:
 	virtual IResource* Clone() = 0; // Clones only handles
@@ -31,7 +27,6 @@ public:
 
 protected:
 	IGraphicsFactory* m_Factory;
-
 public:
 	friend class IGraphicsFactory;
 
@@ -52,9 +47,6 @@ public:
 	virtual IBuffer* Clone() = 0;
 	virtual void Bind() const = 0;
 	virtual void Update(const void* data, unsigned int size) = 0;
-
-protected:
-	virtual IResource* ShallowCopy(const IResource* other) = 0;
 
 };
 
