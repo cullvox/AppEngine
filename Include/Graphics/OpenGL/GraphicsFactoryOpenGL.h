@@ -9,7 +9,7 @@ class FGraphicsFactoryOpenGL final : public IGraphicsFactory
 {
 
 public:
-	FGraphicsFactoryOpenGL(const SGraphicsOptions& options);
+	FGraphicsFactoryOpenGL(const FGraphicsOptions& options);
 	~FGraphicsFactoryOpenGL();
 
 public:

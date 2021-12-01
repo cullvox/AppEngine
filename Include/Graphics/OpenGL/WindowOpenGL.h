@@ -21,7 +21,7 @@ public:
 	static void* GetLoadProc();
 	void SetView(const SMatrix4f& view) final;
 	void SetProjection(const SMatrix4f& projection) final;
-	void SubmitToQueue(const FSubmission& submission) final;
+	void Submit(const FSubmission& submission) final;
 	void NextFrame() final;
 
 };

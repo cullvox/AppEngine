@@ -19,6 +19,10 @@ enum State
 
 struct FSubmission
 {
+	FSubmission()
+	{
+	}
+
 	FSubmission(const SMatrix4f& _model, const IVertexBuffer* _vertexBuffer, const IIndexBuffer* _indexBuffer, const IInstanceBuffer* _instanceBuffer, const IPipeline* _pipeline, State _state)
 		: model(_model), vertexBuffer(_vertexBuffer), indexBuffer(_indexBuffer), instanceBuffer(_instanceBuffer), pipeline(_pipeline), state(_state)
 	{

@@ -1,4 +1,4 @@
-add_subdirectory ("CBLAS")
+add_subdirectory ("cblas")
 add_subdirectory ("glfw-3.3.5") 
 add_subdirectory ("glad")
 add_subdirectory ("fmt-8.0.1")

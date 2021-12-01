@@ -26,17 +26,28 @@ enum class EGraphicsAPI : uint8_t
 	eMAX = eVulkan,
 };
 
-struct SGraphicsOptions
+struct FGraphicsOptions
 {
+	FGraphicsOptions()
+		: api(EGraphicsAPI::eOpenGL), bVerticalSync(false)
+	{
+	}
+
+	FGraphicsOptions(EGraphicsAPI _api, bool _bVerticalSync)
+		: api(_api), bVerticalSync(_bVerticalSync)
+	{
+	}
+
+
 	EGraphicsAPI api;
-	bool vSync;
+	bool bVerticalSync;
 };
 
 class IGraphicsFactory : public INonCopyable
 {
 
 public:
-	IGraphicsFactory(const SGraphicsOptions& options = {}) {};
+	IGraphicsFactory(const FGraphicsOptions& options = {}) {};
 	virtual ~IGraphicsFactory() {};
 
 public:
@@ -45,6 +56,7 @@ public:
 
 	virtual std::unique_ptr<IWindow>			CreateWindow(const std::string& title = "AppEngine", unsigned int width = 720, unsigned int height = 1080, IDisplay* display = nullptr) = 0; // Setting a display will cause the window to go into fullscreen on desktops
 	virtual std::unique_ptr<IVertexBuffer>		CreateVertexBuffer(const VertexFormat& format, const void* vertices, unsigned int verticesCount) = 0;
+	virtual std::unique_ptr<IIndexBuffer>		CreateIndexBuffer(const std::vector<unsigned short>& indices);
 	virtual std::unique_ptr<IInstanceBuffer>	CreateInstanceBuffer() = 0;
 	virtual std::unique_ptr<ITexture>			CreateTexture(unsigned int width, unsigned int height, const std::vector<unsigned char>& pixels) = 0;
 	virtual std::unique_ptr<IPipeline>			CreatePipeline(const std::vector<unsigned char>& vertex, const std::vector<unsigned char>& fragment) = 0;
@@ -56,13 +68,13 @@ public:
 
 protected:
 	EGraphicsAPI m_API;
-	SGraphicsOptions m_Options;
+	FGraphicsOptions m_Options;
 	std::vector<IResource*> m_Resources; // Store all resources to ensure destruction later
 	std::vector<IWindow*> m_Windows; // Store windows for rendering
 
 };
 
-std::unique_ptr<IGraphicsFactory> CreateGraphicsFactory(const SGraphicsOptions& options);
+std::unique_ptr<IGraphicsFactory> CreateGraphicsFactory(const FGraphicsOptions& options);
 void DestroyGraphicsFactory(IGraphicsFactory* graphicsFactory);
 
 #define CHECK_GRAPHICS_FACTORY(factory) if (factory == NULL && (factory->GetAPI() <= EGraphicsAPI::eMAX)  ) { throw; }

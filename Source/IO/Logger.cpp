@@ -4,7 +4,10 @@
 
 #include "IO/Logger.h"
 
-FLogger::FLogger(const FString& path)
+namespace AE
+{
+
+FLogger::FLogger(const std::string& path)
 {
 }
 
@@ -14,7 +17,7 @@ FLogger::~FLogger()
 
 void FLogger::LogGeneral(const std::string& category, const std::string& functionName, unsigned int line, const std::string& message)
 {
-	fmt::printf("[ %s, %s, line (%i) ] | %s\n", category, functionName, line, message);
+	fmt::print("[ %s, %s, line (%i) ] | %s\n", category, functionName, line, message);
 }
 
 void FLogger::LogInfo(const std::string& functionName, unsigned int line, const std::string& message)
@@ -22,12 +25,14 @@ void FLogger::LogInfo(const std::string& functionName, unsigned int line, const 
 	FLogger::LogGeneral("INFO", functionName, line, message);
 }
 
-void FLogger::LogWarning(const FString& functionName, unsigned int line, const FString& message)
+void FLogger::LogWarning(const std::string& functionName, unsigned int line, const std::string& message)
 {
 	FLogger::LogGeneral("WARN", functionName, line, message);
 }
 
-void FLogger::LogError(const FString& functionName, unsigned int line, const FString& message)
+void FLogger::LogError(const std::string& functionName, unsigned int line, const std::string& message)
 {
 	FLogger::LogGeneral("ERRO", functionName, line, message);
+}
+
 }

@@ -4,7 +4,7 @@
 namespace AE
 {
 
-std::unique_ptr<IGraphicsFactory> CreateGraphicsFactory(const SGraphicsOptions& options)
+std::unique_ptr<IGraphicsFactory> CreateGraphicsFactory(const FGraphicsOptions& options)
 {
 
 	switch (options.api)

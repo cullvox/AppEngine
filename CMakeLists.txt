@@ -39,6 +39,7 @@ set (Sources "")
 list (APPEND Sources
 	"Source/Math/Vector.cpp"
 	"Source/Math/Matrix.cpp"
+	"Source/IO/Logger.cpp"
 
 	"Source/Containers/LinkedList.cpp"
 	
@@ -57,7 +58,7 @@ add_library (AppEngine STATIC ${Sources})
 target_include_directories (AppEngine PUBLIC "Include")
 
 # Link required thirdparty libraries
-target_link_libraries (AppEngine CBLAS glfw fmt)
+target_link_libraries (AppEngine cblas glfw fmt)
 
 # Link found required libraries
 

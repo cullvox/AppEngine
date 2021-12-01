@@ -24,6 +24,23 @@ public:
 	}
 };
 
+FGLFWGlobalInitializer g_GLFWInitializer;
+
+static std::vector<std::unique_ptr<IDisplay>> g_Displays;
+const std::vector<std::unique_ptr<IDisplay>>& IWindow::GetCurrentDisplays()
+{
+	g_Displays.clear();
+
+	// Update displays
+	int monitorsCount = 0;
+	GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
+
+	for (int i = 0 ; i < monitorsCount; i++)
+		g_Displays.push_back(std::make_unique<IDisplayGLFW>(IDisplayGLFW(monitors[i])));
+
+	return g_Displays;
+}
+
 IDisplayGLFW::IDisplayGLFW()
 {
 }
@@ -40,6 +57,7 @@ IDisplayGLFW::IDisplayGLFW(const IDisplayGLFW& other)
 
 IDisplayGLFW::~IDisplayGLFW()
 {
+	LOG_INFO("Destroying window.");
 }
 
 IDisplayGLFW* IDisplayGLFW::Clone()
@@ -86,32 +104,22 @@ IWindowGLFW::IWindowGLFW(IGraphicsFactory* factory, const std::string& title, un
 {
 	CHECK_GRAPHICS_FACTORY(factory)
 
-	m_Window = glfwCreateWindow(width, height, title.c_str(), (GLFWmonitor*)display->GetNative(), nullptr);
+	m_Window = glfwCreateWindow(width, height, title.c_str(), display ? (GLFWmonitor*)dynamic_cast<IDisplayGLFW*>(display)->GetNative() : nullptr, nullptr);
 
 	if (m_Window == nullptr)
+	{
+		LOG_ERROR("Could not create a window!");
 		throw;
+	}
+
+	Bind();
+
 
 }
 
 IWindowGLFW::~IWindowGLFW()
 {
 	glfwDestroyWindow(m_Window);
-}
-
-static std::vector<std::unique_ptr<IDisplay>> g_Displays;
-
-const std::vector<std::unique_ptr<IDisplay>>& IWindowGLFW::GetCurrentDisplays()
-{
-	g_Displays.clear();
-
-	// Update displays
-	int monitorsCount = 0;
-	GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
-
-	for (int i = 0 ; i < monitorsCount; i++)
-		g_Displays.push_back(std::make_unique<IDisplayGLFW>(IDisplayGLFW(monitors[i])));
-
-	return g_Displays;
 }
 
 void IWindowGLFW::Bind()
@@ -132,6 +140,11 @@ void IWindowGLFW::SetTitle(const std::string& title)
 void* IWindowGLFW::GetNative() const
 {
 	return m_Window;
+}
+
+bool IWindowGLFW::IsCloseRequested()
+{
+	return glfwWindowShouldClose(m_Window);
 }
 
 }

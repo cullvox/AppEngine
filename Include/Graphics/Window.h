@@ -73,11 +73,12 @@ public:
 	virtual void* GetNative() const = 0;
 	virtual void Resize(unsigned int width, unsigned int height) = 0;
 	virtual void SetTitle(const std::string& title) = 0;
+	virtual bool IsCloseRequested() = 0;
 
 //	Drawing
 	virtual void SetView(const SMatrix4f& view) = 0;
 	virtual void SetProjection(const SMatrix4f& projection) = 0;
-	virtual void SubmitToQueue(const FSubmission& submission) = 0;
+	virtual void Submit(const FSubmission& submission) = 0;
 	virtual void NextFrame() = 0;
 
 };

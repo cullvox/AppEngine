@@ -27,7 +27,7 @@ void IWindowOpenGL::SetProjection(const SMatrix4f& projection)
 {
 }
 
-void IWindowOpenGL::SubmitToQueue(const FSubmission& submission)
+void IWindowOpenGL::Submit(const FSubmission& submission)
 {
 }
 

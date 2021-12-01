@@ -29,9 +29,9 @@ public:
 	const void* GetNative() const;
 
 private:
-	GLFWmonitor* m_Monitor;
+	GLFWmonitor* m_Monitor = nullptr;
 	std::vector<FVideoMode> m_VideoModes;
-	bool bGotModes;
+	bool bGotModes = false;
 
 };
 
@@ -46,12 +46,11 @@ protected:
 	IWindowGLFW(const IWindowGLFW& other);
 
 public:
-	virtual const std::vector<std::unique_ptr<IDisplay>>& GetCurrentDisplays();
-
 	virtual void Bind();
+	virtual void* GetNative() const;
 	virtual void Resize(unsigned int width, unsigned int height);
 	virtual void SetTitle(const std::string& title);
-	virtual void* GetNative() const;
+	virtual bool IsCloseRequested();
 
 private:
 	GLFWwindow* m_Window = nullptr;

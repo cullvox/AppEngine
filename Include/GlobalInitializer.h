@@ -8,8 +8,8 @@ namespace AE
 class IGlobalInitializer
 {
 public:
-	IGlobalInitializer();
-	virtual ~IGlobalInitializer() = 0;
+	IGlobalInitializer() {};
+	virtual ~IGlobalInitializer() = 0 {};
 };
 
 }

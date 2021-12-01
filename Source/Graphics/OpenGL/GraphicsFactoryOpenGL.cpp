@@ -1,30 +1,33 @@
 #include <glad/glad.h>
 
+#include <IO/Logger.h>
+
 #include "Graphics/OpenGL/WindowOpenGLGLFW.h"
 #include "Graphics/OpenGL/GraphicsFactoryOpenGL.h"
 
 namespace AE
 {
 
+static bool g_GladInitialized = false;
 bool CheckAndInitializeGLAD()
 {
-	static bool gladInitialized = false;
-	if (gladInitialized)
+	if (!g_GladInitialized)
 	{
-		return true;
+		if (!gladLoadGLLoader((GLADloadproc)IWindowOpenGL::GetLoadProc()))
+		{
+			LOG_ERROR("Could not load GLAD!");
+			return false;
+		}
+
+		g_GladInitialized = true;
 	}
 
-	if (gladLoadGLLoader((GLADloadproc)IWindowOpenGL::GetLoadProc()))
-	{
-		gladInitialized = true;
-		return true;
-	}
-
-	return false;
+	return true;
 }
 
-FGraphicsFactoryOpenGL::FGraphicsFactoryOpenGL(const SGraphicsOptions& options)
-{	
+FGraphicsFactoryOpenGL::FGraphicsFactoryOpenGL(const FGraphicsOptions& options)
+{
+	m_Options = options;
 }
 
 FGraphicsFactoryOpenGL::~FGraphicsFactoryOpenGL()
