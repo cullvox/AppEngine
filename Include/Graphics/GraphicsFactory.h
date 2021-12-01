@@ -59,6 +59,7 @@ public:
 	virtual std::unique_ptr<IIndexBuffer>		CreateIndexBuffer(const std::vector<unsigned short>& indices);
 	virtual std::unique_ptr<IInstanceBuffer>	CreateInstanceBuffer() = 0;
 	virtual std::unique_ptr<ITexture>			CreateTexture(unsigned int width, unsigned int height, const std::vector<unsigned char>& pixels) = 0;
+	virtual std::unique_ptr<IPipelineBuilder>	CreatePipelineBuilder()
 	virtual std::unique_ptr<IPipeline>			CreatePipeline(const std::vector<unsigned char>& vertex, const std::vector<unsigned char>& fragment) = 0;
 
 	// Alternative create functions
